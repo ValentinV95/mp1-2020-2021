@@ -6,6 +6,8 @@
 extern int comp_merge;
 extern int perm_merge;
 
+int size;
+
 void input_array(double[], int);
 void random_array(double[], int);
 void print_array(double[], int);
@@ -20,15 +22,15 @@ void radixSort(double*, double*, long);
 int main()
 {
 	setlocale(LC_ALL, "Russian");
-	int size;
+	//int size;
 	int array_type;
 
-	printf("Введите количество элементов массива: ");
+	printf("Г‚ГўГҐГ¤ГЁГІГҐ ГЄГ®Г«ГЁГ·ГҐГ±ГІГўГ® ГЅГ«ГҐГ¬ГҐГ­ГІГ®Гў Г¬Г Г±Г±ГЁГўГ : ");
 	scanf_s("%d", &size);
 
 	printf("\n-----------------------------------------------------");
 
-	printf("\nВведите тип массива:\n\n 1 - Random\n\n 2 - Ручной ввод\n\n array id = ");
+	printf("\nГ‚ГўГҐГ¤ГЁГІГҐ ГІГЁГЇ Г¬Г Г±Г±ГЁГўГ :\n\n 1 - Random\n\n 2 - ГђГіГ·Г­Г®Г© ГўГўГ®Г¤\n\n array id = ");
 	scanf_s("%d", &array_type);
 
 	printf("-----------------------------------------------------\n");
@@ -45,14 +47,14 @@ int main()
 		input_array(a, size);
 		break;
 	default:
-		printf("Неправильное значение, введите ещё раз(1-2)\n\n");
+		printf("ГЌГҐГЇГ°Г ГўГЁГ«ГјГ­Г®ГҐ Г§Г­Г Г·ГҐГ­ГЁГҐ, ГўГўГҐГ¤ГЁГІГҐ ГҐГ№Вё Г°Г Г§(1-2)\n\n");
 		scanf_s("%d", &array_type);
 	}
 
 	printf("\n-----------------------------------------------------");
 
 	int sort_id;
-	printf("\nВведите id нужной сортировки:\n\n 1 - insertion sort\n\n 2 - comb sort\n\n 3 - merge sort\n\n 4 - radix sort\n\n sort id = ");
+	printf("\nГ‚ГўГҐГ¤ГЁГІГҐ id Г­ГіГ¦Г­Г®Г© Г±Г®Г°ГІГЁГ°Г®ГўГЄГЁ:\n\n 1 - insertion sort\n\n 2 - comb sort\n\n 3 - merge sort\n\n 4 - radix sort\n\n sort id = ");
 	scanf_s("%d", &sort_id);
 
 	printf("-----------------------------------------------------\n");
@@ -66,14 +68,14 @@ int main()
 		break;
 	case 3:
 		merge_sort(a, 0, size - 1);
-		printf("\nКоличество сравнений: %d\n", comp_merge);
-		printf("\nКоличество перестановок: %d\n", perm_merge);
+		printf("\nГЉГ®Г«ГЁГ·ГҐГ±ГІГўГ® Г±Г°Г ГўГ­ГҐГ­ГЁГ©: %d\n", comp_merge);
+		printf("\nГЉГ®Г«ГЁГ·ГҐГ±ГІГўГ® ГЇГҐГ°ГҐГ±ГІГ Г­Г®ГўГ®ГЄ: %d\n", perm_merge);
 		break;
 	case 4:
 		radixSort(a, second_array, size);
 		break;
 	default:
-		printf("Неправильное значение, введите ещё раз(1-4)\n\n");
+		printf("ГЌГҐГЇГ°Г ГўГЁГ«ГјГ­Г®ГҐ Г§Г­Г Г·ГҐГ­ГЁГҐ, ГўГўГҐГ¤ГЁГІГҐ ГҐГ№Вё Г°Г Г§(1-4)\n\n");
 		scanf_s("%d", &sort_id);
 	}
 
