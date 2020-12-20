@@ -1,0 +1,10 @@
+﻿  comb.c
+C:\Users\aura\Desktop\Лаба\SortAlg\SortAlg\comb.c(9,34): warning C4018: <: несоответствие типов со знаком и без знака
+C:\Users\aura\Desktop\Лаба\SortAlg\SortAlg\comb.c(18,23): warning C4244: /=: преобразование "double" в "int", возможна потеря данных
+  merge.c
+  Создание кода
+  3 of 19 functions (15.8%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    0 functions had inline decision re-evaluated but remain unchanged
+  Создание кода завершено
+  SortAlg.vcxproj -> C:\Users\aura\Desktop\Лаба\SortAlg\Release\SortAlg.exe

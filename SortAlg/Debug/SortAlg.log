@@ -1,0 +1,3 @@
+﻿  main.c
+C:\Users\aura\Desktop\Лаба\SortAlg\SortAlg\main.c(98,15): warning C4244: функция: преобразование "time_t" в "unsigned int", возможна потеря данных
+  SortAlg.vcxproj -> C:\Users\aura\Desktop\Лаба\SortAlg\Debug\SortAlg.exe
