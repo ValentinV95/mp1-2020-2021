@@ -4,6 +4,8 @@
 int perm_merge = 0;
 int comp_merge = 0;
 
+extern int size;
+
 void merge(double[], int, int);
 
 void merge_sort(double array[], int first, int last) {
@@ -19,7 +21,7 @@ void merge_sort(double array[], int first, int last) {
 void merge(double array[], int first, int last) {
 	int middle, start, final, j;
 	double* second;
-	second = (double*)malloc((2 * last) * sizeof(double));
+	second = (double*)malloc((size) * sizeof(double));
 	middle = (first + last) / 2;
 	start = first; 
 	final = middle + 1;
