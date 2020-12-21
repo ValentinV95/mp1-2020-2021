@@ -39,18 +39,22 @@ void radixSort(double* in, double* out, long N)
 {
 	long* count;
 	long* counters = (long*)malloc(sizeof(double) * 256 * sizeof(long));
+	double* temp;
 	createCounters(in, counters, N);
 	for (unsigned short i = 0; i < sizeof(double); i++) {
 		count = counters + 256 * i;
 		radixPass(i, N, in, out, count);
-		for (long j = 0; j < N; j++)
-			in[j] = out[j];
+		//for (long j = 0; j < N; j++)
+			//in[j] = out[j];
+		temp = in;
+		in = out;
+		out = temp;
 	}
 
 	perm_radix += N;
 
-	printf("\nÊîëè÷åñòâî ñðàâíåíèé: %d\n", comp_radix);
-	printf("\nÊîëè÷åñòâî ïåðåñòàíîâîê: %d\n", perm_radix);
+	printf("\nÃŠÃ®Ã«Ã¨Ã·Ã¥Ã±Ã²Ã¢Ã® Ã±Ã°Ã Ã¢Ã­Ã¥Ã­Ã¨Ã©: %d\n", comp_radix);
+	printf("\nÃŠÃ®Ã«Ã¨Ã·Ã¥Ã±Ã²Ã¢Ã® Ã¯Ã¥Ã°Ã¥Ã±Ã²Ã Ã­Ã®Ã¢Ã®Ãª: %d\n", perm_radix);
 
 	free(counters);
 }
