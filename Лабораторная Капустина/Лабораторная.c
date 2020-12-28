@@ -17,19 +17,19 @@ struct testInfo
 };
 typedef struct testInfo testInfo;
 
-static void _radix_(double* arr, double* buffer, int64_t len)
+static void _radix_(double* array, double* buf, int64_t size)
 {
-	size_t i = len - 1;
+	size_t i = size - 1;
 	size_t pos = 0;
 
-	for (; i > 0 && buffer[i] < 0; i--, pos++)
+	for (; i > 0 && buf[i] < 0; i--, pos++)
 	{
-		arr[pos] = buffer[i];
+		array[pos] = buf[i];
 	}
 
 	for (size_t j = 0; j <= i; j++, pos++)
 	{
-		arr[pos] = buffer[j];
+		array[pos] = buf[j];
 	}
 }
 
