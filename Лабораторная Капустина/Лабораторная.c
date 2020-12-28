@@ -217,13 +217,6 @@ testInfo mergeSort(double* a, int l, int r)
 void main()
 {
 	setlocale(LC_ALL, "Rus");
-
-	testInfo chet [100];
-	testInfo sum;
-	sum.compareCount = 0;
-	sum.swapCount = 0;
-	int64_t swap[100], compare[100];
-
 	int zero = 1;
 	int N = SIZE_T;
 	double mass[SIZE_T];
