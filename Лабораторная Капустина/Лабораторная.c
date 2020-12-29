@@ -208,6 +208,7 @@ testInfo mergeSort(double* a, int l, int r)
 	for (int step = 0; step < r - l + 1; step++)
 	{
 		a[l + step] = tmp[step]; 
+		merge.swapCount++;
 	} 
 	for (int step = 0; step < r - l + 1; step++)
 	return merge;
