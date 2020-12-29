@@ -212,6 +212,16 @@ testInfo mergeSort(double* a, int l, int r)
 	for (int step = 0; step < r - l + 1; step++)
 	return merge;
 }
+int correct(double* array, int l)
+{
+	int flag = 1;
+	for (int i = 0; i < l-1; i++)
+	{
+		if (array[i] > array[i + 1])
+			flag = 0;
+	}
+	return flag;
+};
 
 
 void main()
@@ -223,6 +233,7 @@ void main()
 	double* p;
 	p = mass;
 	int i;
+	int cor=0;
 	int per = 0;
 	testInfo flow;
 	srand(time(NULL));
@@ -287,6 +298,12 @@ void main()
 			printf("×èñëî ïåðåñòàíîâîê %" PRId64 "\n", flow.swapCount);
 			printf("×èñëî ñðàâíåíèé %" PRId64 "\n", flow.compareCount);
 		}
+		cor = correct(mass, N);
+		if( zero>4 && cor ==1)
+			printf("Correct");
+		f( zero>4 && cor == 0)
+			printf("No correct");
+		{
 	}
 	return 0;
 }
