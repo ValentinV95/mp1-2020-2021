@@ -13,7 +13,6 @@
 struct testInfo
 {
 	int64_t compareCount, swapCount;
-	int isCorrect;
 };
 typedef struct testInfo testInfo;
 
