@@ -184,6 +184,8 @@ testInfo mergeSort(double* a, int l, int r)
 	int mid = (l + r) / 2;
 	merge.swapCount += mergeSort(a, l, mid).swapCount;
 	merge.swapCount += mergeSort(a, mid + 1, r).swapCount;
+	merge.compareCount += mergeSort(a, l, mid).compareCount;
+	merge.compareCount += mergeSort(a, mid + 1, r).compareCount;
 	int i = l;
 	int j = mid + 1;
 	float* tmp = (float*)malloc(r * sizeof(int));
@@ -206,7 +208,6 @@ testInfo mergeSort(double* a, int l, int r)
 	for (int step = 0; step < r - l + 1; step++)
 	{
 		a[l + step] = tmp[step]; 
-		merge.compareCount++;
 	} 
 	for (int step = 0; step < r - l + 1; step++)
 	return merge;
