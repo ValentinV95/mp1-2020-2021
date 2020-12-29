@@ -301,7 +301,7 @@ void main()
 		cor = correct(mass, N);
 		if( zero>4 && cor ==1)
 			printf("Correct");
-		f( zero>4 && cor == 0)
+		if( zero>4 && cor == 0)
 			printf("No correct");
 		{
 	}
