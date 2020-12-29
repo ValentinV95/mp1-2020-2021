@@ -1,17 +1,47 @@
 #include<iostream>
 #include<stdio.h>
-void countingSort(int* array, int* dest, int n, int m)
+void createCounters(double* data, long* counters, long N)
 {
-	int count[m+1] = { 0 };
-	int tmp1 = 0, tmp2 = 0;
-	for (int i = 0; i < n; i++)
-		count[array[i]]++;
-	tmp1 = count[0]; count[0] = 0;
-	for (int i = 1; i <= m; i++) {
-		tmp2 = count[i];       count[i] = count[i - 1] + tmp1;       tmp1 = tmp2;
+
+	unsigned char* bp = (unsigned char*)data;            
+	unsigned char* dataEnd = (unsigned char*)(data + N);
+	unsigned short i;
+
+	memset(counters, 0, 256 * sizeof(double) * sizeof(long));
+
+	while (bp != dataEnd)
+	{
+		for (i = 0; i < sizeof(double); i++)
+			counters[256 * i + *(bp++)]++;
 	}
-	for (i = 0; i < n; i++) {
-		c = array[i];
-		dest[count[c]] = c;
-		count[c]++;
+}
+void radixPass(short Offset, long N, double* source, double* dest, long* count)
+{
+	double* sp;
+	long s = 0, c, i, * cp = count;
+	unsigned char* bp;
+
+	for (i = 256; i > 0; --i, ++cp) {
+		c = *cp;		*cp = s;		s += c;
 	}
+	bp = (unsigned char*)source + Offset;
+	sp = source;
+	for (i = N; i > 0; --i, bp += sizeof(double), ++sp)
+	{
+		cp = count + *bp;	dest[*cp] = *sp;		(*cp)++;
+	}
+}
+void radixSort(double* in, double* out,  long N)
+{
+	long* count;
+	long* counters = (long*)malloc(1024 * sizeof(long));
+	long k = 0;
+	createCounters(in, counters, N);
+
+	for (unsigned short i = 0; i < sizeof(double); i++) {
+		count = counters + 256 * i;
+		radixPass(i, N, in, out, count);
+		for (long j = 0; j < N; j++)
+			in[j] = out[j];
+	}
+}
