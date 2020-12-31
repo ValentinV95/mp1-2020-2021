@@ -1,9 +1,9 @@
 #include<iostream>
 #include<stdio.h>
-void createCounters(double* data, long* counters, long N)
+void createCounters(double* data, int* counters, long N)
 {
 
-	unsigned char* bp = (unsigned char*)data;            
+	unsigned char* bp = (unsigned char*)data;
 	unsigned char* dataEnd = (unsigned char*)(data + N);
 	unsigned short i;
 
@@ -15,13 +15,14 @@ void createCounters(double* data, long* counters, long N)
 			counters[256 * i + *(bp++)]++;
 	}
 }
-void radixPass(short Offset, long N, double* source, double* dest, long* count)
+void radixPass(short Offset, long N, double* source, double* dest, int* count)
 {
 	double* sp;
-	long s = 0, c, i, * cp = count;
+	int s = 0, c, i, * cp = count;
 	unsigned char* bp;
 
-	for (i = 256; i > 0; --i, ++cp) {
+	for (i = 256; i > 0; --i, ++cp)
+	{
 		c = *cp;		*cp = s;		s += c;
 	}
 	bp = (unsigned char*)source + Offset;
@@ -31,17 +32,32 @@ void radixPass(short Offset, long N, double* source, double* dest, long* count)
 		cp = count + *bp;	dest[*cp] = *sp;		(*cp)++;
 	}
 }
-void radixSort(double* in, double* out,  long N)
+void radixSort(double* array, long N)
 {
-	long* count;
-	long* counters = (long*)malloc(1024 * sizeof(long));
-	long k = 0;
-	createCounters(in, counters, N);
-
-	for (unsigned short i = 0; i < sizeof(double); i++) {
+	double* additional_array = (double*)malloc(N * sizeof(double));
+	int* counters = (int*)malloc(2048 * sizeof(int));
+	int* count;
+	int k = 0;
+	createCounters(array, counters, N);
+	for (unsigned short i = 0; i < sizeof(double); i++)
+	{
 		count = counters + 256 * i;
-		radixPass(i, N, in, out, count);
-		for (long j = 0; j < N; j++)
-			in[j] = out[j];
+		radixPass(i, N, array, additional_array, count);
+		for (int j = 0; j < N; j++)
+		{
+			array[j] = additional_array[j];
+		}
 	}
+	while (array[k] >= 0 && k < N && !(k > 0 && array[k] <= 0 && array[k - 1] > 0)) k++;
+	for (int i = 0; i < N - k; i++)
+	{
+		array[i] = additional_array[N - 1 - i];
+	}
+	for (int i = 0; i < k; i++)
+	{
+		array[N - k + i] = additional_array[i];
+	}
+	memcpy(array, additional_array, N * sizeof(double));
+	free(additional_array);
+	free(counters);
 }
