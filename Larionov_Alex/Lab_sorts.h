@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <stdio.h>
+int swaps=0, comps=0;
 void insertion_sort(double arr[], int n)
 {
 	int a = 0; int b = 0;
@@ -12,11 +13,11 @@ void insertion_sort(double arr[], int n)
 			arr[j] = tmp;
 			a = a + 3; b++;
 		}
-	printf("\n%d%s\n%d%s", a, "swaps", b, "comparisons");
+	printf("\n%d%s\n%d%s\n", a, "swaps", b, "comparisons");
 }
 void Shell_sort(double array[], const int n)
 {
-	int step, i, j;
+	int step, i, j,a = 0,b = 0;
 	double tmp;
 	for (step = n / 2; step > 0; step /= 2)
 		for (i = step; i < n; i++)
@@ -25,8 +26,9 @@ void Shell_sort(double array[], const int n)
 				tmp = array[j];
 				array[j] = array[j + step];
 				array[j + step] = tmp;
+				b = b + 1; a = a + 1;
 			}
-
+	printf("\n%d%s\n%d%s\n", a, "swaps", b, "comparisons");
 }
 void createCounters(double* data, int* counters, long N)
 {
@@ -65,7 +67,7 @@ void radixSort(double* array, long N)
 	double* additional_array = (double*)malloc(N * sizeof(double));
 	int* counters = (int*)malloc(2048 * sizeof(int));
 	int* count;
-	int k = 0;
+	int k = 0, a = 0, b = 0;
 	createCounters(array, counters, N);
 	for (unsigned short i = 0; i < sizeof(double); i++)
 	{
@@ -73,21 +75,22 @@ void radixSort(double* array, long N)
 		radixPass(i, N, array, additional_array, count);
 		for (int j = 0; j < N; j++)
 		{
-			array[j] = additional_array[j];
+			array[j] = additional_array[j]; a++;
 		}
 	}
-	while (array[k] >= 0 && k < N && !(k > 0 && array[k] <= 0 && array[k - 1] > 0)) k++;
+	while (array[k] >= 0 && k < N && !(k > 0 && array[k] <= 0 && array[k - 1] > 0)) { k++; b++; }
 	for (int i = 0; i < N - k; i++)
 	{
-		array[i] = additional_array[N - 1 - i];
+		array[i] = additional_array[N - 1 - i]; a++;
 	}
 	for (int i = 0; i < k; i++)
 	{
-		array[N - k + i] = additional_array[i];
+		array[N - k + i] = additional_array[i]; a++;
 	}
 	memcpy(array, additional_array, N * sizeof(double));
 	free(additional_array);
 	free(counters);
+	printf("\n%d%s\n%d%s\n", a, "swaps", b, "comparisons");
 }
 void merge(double array[], double spare[], int l, int r)
 {
@@ -96,11 +99,15 @@ void merge(double array[], double spare[], int l, int r)
 	{
 		if (array[i] <= array[j])
 		{
+			swaps = swaps + 1;
+			comps = comps + 1;
 			spare[k] = array[i];
 			i++;
 		}
 		else
 		{
+			swaps = swaps + 1;
+			comps = comps + 1;
 			spare[k] = array[j];
 			j++;
 		}
@@ -108,17 +115,22 @@ void merge(double array[], double spare[], int l, int r)
 	}
 	while (i <= q)
 	{
+		swaps = swaps + 1;
 		spare[k] = array[i];
 		i++; k++;
 	}
 	while (j <= r)
 	{
+		swaps = swaps + 1;
 		spare[k] = array[j];
 		j++;
 		k++;
 	}
 	for (i = 0; i < k; i++)
+	{
+		swaps = swaps + 1;
 		array[l + i] = spare[i];
+	}
 }
 int merge_sort(double array[], double spare[], int l, int r)
 {
@@ -129,5 +141,12 @@ int merge_sort(double array[], double spare[], int l, int r)
 		merge_sort(array, spare, q + 1, r);
 		merge(array, spare, l, r);
 	}
+	return(0);
+}
+int mergeSort(double array[], double spare[], int l, int r)
+{
+	merge_sort(array, spare, l, r);
+	printf("swaps = "); printf("%d\n", swaps);
+	printf("comparisons = "); printf("%d\n", comps);
 	return(0);
 }
