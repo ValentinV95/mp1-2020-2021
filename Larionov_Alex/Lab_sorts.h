@@ -1,5 +1,33 @@
-#include<iostream>
-#include<stdio.h>
+#pragma once
+#include <iostream>
+#include <stdio.h>
+void insertion_sort(double arr[], int n)
+{
+	int a = 0; int b = 0;
+	for (int i = 1; i < n; i++)
+		for (int j = i; j > 0 && arr[j - 1] - arr[j] >= 0; j--)
+		{
+			double tmp = arr[j - 1];
+			arr[j - 1] = arr[j];
+			arr[j] = tmp;
+			a = a + 3; b++;
+		}
+	printf("\n%d%s\n%d%s", a, "swaps", b, "comparisons");
+}
+void Shell_sort(double array[], const int n)
+{
+	int step, i, j;
+	double tmp;
+	for (step = n / 2; step > 0; step /= 2)
+		for (i = step; i < n; i++)
+			for (j = i - step; j >= 0 && array[j] > array[j + step]; j -= step)
+			{
+				tmp = array[j];
+				array[j] = array[j + step];
+				array[j + step] = tmp;
+			}
+
+}
 void createCounters(double* data, int* counters, long N)
 {
 
@@ -60,4 +88,46 @@ void radixSort(double* array, long N)
 	memcpy(array, additional_array, N * sizeof(double));
 	free(additional_array);
 	free(counters);
+}
+void merge(double array[], double spare[], int l, int r)
+{
+	int i = l, q = (l + r) / 2, j = q + 1, k = 0;
+	while (i <= q && j <= r)
+	{
+		if (array[i] <= array[j])
+		{
+			spare[k] = array[i];
+			i++;
+		}
+		else
+		{
+			spare[k] = array[j];
+			j++;
+		}
+		k++;
+	}
+	while (i <= q)
+	{
+		spare[k] = array[i];
+		i++; k++;
+	}
+	while (j <= r)
+	{
+		spare[k] = array[j];
+		j++;
+		k++;
+	}
+	for (i = 0; i < k; i++)
+		array[l + i] = spare[i];
+}
+int merge_sort(double array[], double spare[], int l, int r)
+{
+	if (l < r)
+	{
+		int q = (l + r) / 2;
+		merge_sort(array, spare, l, q);
+		merge_sort(array, spare, q + 1, r);
+		merge(array, spare, l, r);
+	}
+	return(0);
 }
