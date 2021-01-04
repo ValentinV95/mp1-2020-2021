@@ -83,13 +83,6 @@ void radixSort(double* array, long N)
 	{
 		array[i] = additional_array[N - 1 - i]; a++;
 	}
-	for (int i = 0; i < k; i++)
-	{
-		array[N - k + i] = additional_array[i]; a++;
-	}
-	memcpy(array, additional_array, N * sizeof(double));
-	free(additional_array);
-	free(counters);
 	printf("\n%d%s\n%d%s\n", a, "swaps", b, "comparisons");
 }
 void merge(double array[], double spare[], int l, int r)
