@@ -78,11 +78,11 @@ int main()
 		{
 			if (massive[i] > massive[i + 1])
 			{
-				printf("sort went wrong\n", "%d%f%d%f", "massive element ", i, " = ", massive[i], "massive element ", i + 1, " = ", massive[i + 1]);
+				printf("sort went wrong\n massive element %d = %lf\n massive element %d = %lf ", i, massive[i], i + 1, massive[i + 1]);
 			}
 			else
 			{
-				last = last + 1;
+				last++;
 			}
 		}
 	}
