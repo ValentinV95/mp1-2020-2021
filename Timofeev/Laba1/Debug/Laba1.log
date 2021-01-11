@@ -1,0 +1,6 @@
+﻿  Sort.c
+D:\PROGRAMIROVANIE\Laba1\Laba1\Sort.c(59,8): warning C4013: 'memset' undefined; assuming extern returning int
+  main.c
+D:\PROGRAMIROVANIE\Laba1\Laba1\main.c(84,18): warning C4244: 'function': conversion from 'time_t' to 'unsigned int', possible loss of data
+  Generating Code...
+  Laba1.vcxproj -> D:\PROGRAMIROVANIE\Laba1\Debug\Laba1.exe
