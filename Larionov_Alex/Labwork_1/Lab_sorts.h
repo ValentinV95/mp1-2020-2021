@@ -1,22 +1,24 @@
+
 #pragma once
 #include <iostream>
 #include <stdio.h>
+int swaps = 0, comps = 0;
 void insertion_sort(double arr[], int n)
 {
 	int a = 0; int b = 0;
 	for (int i = 1; i < n; i++)
-		for (int j = i; j > 0 && arr[j - 1] - arr[j] >= 0; j--)
+		for (int j = i; j > 0 && arr[j - 1] >= arr[j]; j--)
 		{
 			double tmp = arr[j - 1];
 			arr[j - 1] = arr[j];
 			arr[j] = tmp;
-			a = a + 3; b++;
+			swaps++; comps++;
 		}
-	printf("\n%d%s\n%d%s", a, "swaps", b, "comparisons");
+	printf("swaps = %d  comparisons = % d\n", swaps, comps);
 }
 void Shell_sort(double array[], const int n)
 {
-	int step, i, j;
+	int step, i, j, a = 0, b = 0;
 	double tmp;
 	for (step = n / 2; step > 0; step /= 2)
 		for (i = step; i < n; i++)
@@ -25,8 +27,9 @@ void Shell_sort(double array[], const int n)
 				tmp = array[j];
 				array[j] = array[j + step];
 				array[j + step] = tmp;
+				swaps++; comps++;
 			}
-
+	printf("swaps = %d  comparisons = % d\n", swaps, comps);
 }
 void createCounters(double* data, int* counters, long N)
 {
@@ -35,7 +38,7 @@ void createCounters(double* data, int* counters, long N)
 	unsigned char* dataEnd = (unsigned char*)(data + N);
 	unsigned short i;
 
-	memset(counters, 0, 256 * sizeof(double) * sizeof(long));
+	memset(counters, 0, 256 * sizeof(double) * sizeof(int));
 
 	while (bp != dataEnd)
 	{
@@ -57,7 +60,7 @@ void radixPass(short Offset, long N, double* source, double* dest, int* count)
 	sp = source;
 	for (i = N; i > 0; --i, bp += sizeof(double), ++sp)
 	{
-		cp = count + *bp;	dest[*cp] = *sp;		(*cp)++;
+		cp = count + *bp;	dest[*cp] = *sp;	(*cp)++;    swaps++;
 	}
 }
 void radixSort(double* array, long N)
@@ -65,7 +68,7 @@ void radixSort(double* array, long N)
 	double* additional_array = (double*)malloc(N * sizeof(double));
 	int* counters = (int*)malloc(2048 * sizeof(int));
 	int* count;
-	int k = 0;
+	int k = 0, a = 0, b = 0;
 	createCounters(array, counters, N);
 	for (unsigned short i = 0; i < sizeof(double); i++)
 	{
@@ -73,21 +76,21 @@ void radixSort(double* array, long N)
 		radixPass(i, N, array, additional_array, count);
 		for (int j = 0; j < N; j++)
 		{
-			array[j] = additional_array[j];
+			array[j] = additional_array[j]; a++;
 		}
 	}
-	while (array[k] >= 0 && k < N && !(k > 0 && array[k] <= 0 && array[k - 1] > 0)) k++;
+	while (array[k] >= 0 && k < N && !(k > 0 && array[k] <= 0 && array[k - 1] > 0)) { comps = comps + 3; k++; }
 	for (int i = 0; i < N - k; i++)
 	{
-		array[i] = additional_array[N - 1 - i];
+		array[i] = additional_array[N - 1 - i];  swaps++;
 	}
 	for (int i = 0; i < k; i++)
 	{
-		array[N - k + i] = additional_array[i];
+		array[N - k + i] = additional_array[i]; swaps++;
 	}
-	memcpy(array, additional_array, N * sizeof(double));
-	free(additional_array);
+	printf("swaps = %d  comparisons = % d\n", swaps, comps);
 	free(counters);
+	free(additional_array);
 }
 void merge(double array[], double spare[], int l, int r)
 {
@@ -96,11 +99,15 @@ void merge(double array[], double spare[], int l, int r)
 	{
 		if (array[i] <= array[j])
 		{
+			swaps++;
+			comps++;
 			spare[k] = array[i];
 			i++;
 		}
 		else
 		{
+			swaps++;
+			comps++;
 			spare[k] = array[j];
 			j++;
 		}
@@ -108,17 +115,22 @@ void merge(double array[], double spare[], int l, int r)
 	}
 	while (i <= q)
 	{
+		swaps++;
 		spare[k] = array[i];
 		i++; k++;
 	}
 	while (j <= r)
 	{
+		swaps++;
 		spare[k] = array[j];
 		j++;
 		k++;
 	}
 	for (i = 0; i < k; i++)
+	{
+		swaps++;
 		array[l + i] = spare[i];
+	}
 }
 int merge_sort(double array[], double spare[], int l, int r)
 {
@@ -129,5 +141,11 @@ int merge_sort(double array[], double spare[], int l, int r)
 		merge_sort(array, spare, q + 1, r);
 		merge(array, spare, l, r);
 	}
+	return(0);
+}
+int mergeSort(double array[], double spare[], int l, int r)
+{
+	merge_sort(array, spare, l, r);
+	printf("swaps = %d  comparisons = % d\n", swaps, comps);
 	return(0);
 }
