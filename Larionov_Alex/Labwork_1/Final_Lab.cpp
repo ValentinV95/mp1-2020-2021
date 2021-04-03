@@ -23,7 +23,7 @@ int main()
 	{printf("Massive of random floating point numbers.\n");
 	for (i = 0; i < a; i++)
 	{
-		massive[i] = pow(-1, i) * rand() + ((double)rand() / (double)((RAND_MAX)+1));
+		massive[i] = pow(-1,i)*rand()+((double)rand() / (double)((RAND_MAX) + 1));
 		printf("%lf\n", massive[i]);
 	}
 	break;
@@ -50,7 +50,7 @@ int main()
 		}
 		break;
 	}
-	case 4: {for (i = 0; i < a; i++) { printf("Massive element number %d = ", i); scanf("%lf", &l); massive[i] = l; }}
+	case 4: {for (i = 0; i < a; i++) { printf("Massive element number %d = ",i); scanf("%lf", &l); massive[i] = l; }}
 	}
 	printf("For insertion sort press - 1\n For Shell's sort press - 2\n For radix sort press - 3\n For merge sort press - 4\n");
 	scanf("%d", &c);

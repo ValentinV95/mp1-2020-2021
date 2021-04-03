@@ -1,8 +1,7 @@
-
 #pragma once
 #include <iostream>
 #include <stdio.h>
-int swaps = 0, comps = 0;
+int swaps=0, comps=0;
 void insertion_sort(double arr[], int n)
 {
 	int a = 0; int b = 0;
@@ -18,7 +17,7 @@ void insertion_sort(double arr[], int n)
 }
 void Shell_sort(double array[], const int n)
 {
-	int step, i, j, a = 0, b = 0;
+	int step, i, j,a = 0,b = 0;
 	double tmp;
 	for (step = n / 2; step > 0; step /= 2)
 		for (i = step; i < n; i++)
@@ -79,16 +78,16 @@ void radixSort(double* array, long N)
 			array[j] = additional_array[j]; a++;
 		}
 	}
-	while (array[k] >= 0 && k < N && !(k > 0 && array[k] <= 0 && array[k - 1] > 0)) { comps = comps + 3; k++; }
+	while (array[k] >= 0 && k < N && !(k > 0 && array[k] <= 0 && array[k - 1] > 0)) { comps=comps+3; k++; }
 	for (int i = 0; i < N - k; i++)
 	{
 		array[i] = additional_array[N - 1 - i];  swaps++;
 	}
 	for (int i = 0; i < k; i++)
-	{
+		{
 		array[N - k + i] = additional_array[i]; swaps++;
-	}
-	printf("swaps = %d  comparisons = % d\n", swaps, comps);
+		}
+	printf("swaps = %d  comparisons = % d\n", swaps,  comps);
 	free(counters);
 	free(additional_array);
 }
