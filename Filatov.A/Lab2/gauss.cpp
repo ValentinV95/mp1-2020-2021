@@ -1,5 +1,7 @@
-// Метод Гауса с выбором ведущего элемента(наибольший)
+// Метод Гаусса с выбором ведущего элемента(наибольший)
 #include <iostream>
+#include <time.h>
+#include <random>
 
 using namespace std;
 
@@ -7,25 +9,35 @@ template <typename Type>
 class Vector
 {
 public:
-	Vector()
+	Vector<Type>()
 	{
 		size = 0;
 		T = nullptr;
 	}
-	Vector(size_t size)
+	Vector<Type>(size_t size)
 	{
 		this->size = size;
 		T = new Type[size];
 	}
-	Vector(Vector& B) : Vector(B.size)
+	Vector<Type>(Vector& B) : Vector<Type>(B.size)
 	{
+		size = B.size;
 		for (size_t i = 0; i < size; i++)
 		{
 			T[i] = B[i];
 		}
 	}
+	size_t get_size()
+	{
+		return size;
+	}
 	Type& operator[](size_t i)
 	{
+		if (i > size)
+		{
+			cerr << "Index out of range";
+			exit(0);
+		}
 		return T[i];
 	}
 	Vector<Type>& operator=(Vector<Type> B)
@@ -36,6 +48,11 @@ public:
 	}
 	Vector<Type> operator-(Vector<Type>& B)
 	{
+		if (size != B.size)
+		{
+			cerr << "Wrong size";
+			exit(0);
+		}
 		Vector C(size);
 		for (size_t i = 0; i < size; i++)
 		{
@@ -59,7 +76,7 @@ public:
 		delete[](T);
 		size = 0;
 	}
-private:
+protected:
 	size_t size;
 	Type* T;
 };
@@ -84,40 +101,50 @@ ostream& operator<<(ostream& out, Vector<Type>& A)
 	return out;
 };
 
-template <typename Type>
-class Matrix
+template<typename Type>
+class Matrix : public Vector<Vector<Type>>
 {
 public:
-	Matrix(size_t size)
+	Matrix<Type>()
 	{
-		this->size = size;
-		V = new Vector<Type>[size];
-		for (size_t i = 0; i < size; i++)
-		{
-			V[i] = Vector<Type>(size);
-		}
+
 	}
-	Matrix(Matrix& B) : Matrix(B.size)
+	Matrix<Type>(size_t size) : Vector<Vector<Type>>(size)
 	{
 		for (size_t i = 0; i < size; i++)
 		{
-			V[i] = B[i];
+			T[i] = Vector<Type>(size);
 		}
 	}
-	Vector<Type>& operator[](size_t i)
+	Matrix<Type>(Matrix& B) : Matrix(B.size)
 	{
-		return V[i];
+		for (size_t i = 0; i < size; i++)
+		{
+			T[i] = B[i];
+		}
+	}
+	void Random()
+	{
+		rand_s(10);
+		for (size_t i = 0; i < size; i++)
+		{
+			for (size_t j = 0; j < size; j++)
+			{
+				T[i][j] = rand();
+			}
+		}
+	}
+	Matrix<Type>& operator=(Matrix B)
+	{
+		swap(size, B.size);
+		swap(T, B.T);
+		return *this;
 	}
 	template <typename Type> friend istream& operator>>(istream& in, Matrix<Type>& A);
 	template <typename Type> friend ostream& operator<<(ostream& out, Matrix<Type>& A);
 	~Matrix()
 	{
-		delete[](V);
-		size = 0;
 	}
-private:
-	size_t size;
-	Vector<Type>* V;
 };
 
 template <typename Type>
@@ -141,39 +168,67 @@ ostream& operator<<(ostream& out, Matrix<Type>& A)
 };
 
 template <typename Type>
-void Gauss(Matrix<Type>& A, size_t i, size_t size)
+class Gauss
 {
-	size_t max = i;
-	for (size_t j = i + 1; j < size; j++)
+public:
+	Gauss<Type>(Matrix<Type>& M)
 	{
-		if (A[j][i] > A[max][i])
+		this->M = M;
+	}
+	Vector<Type> Solve(Vector<Type>& V)
+	{
+		size_t size = V.get_size();
+		for (size_t i = 0; i < size; i++)
 		{
-			max = j;
+			size_t max = i;
+			for (size_t j = i + 1; j < size; j++)
+			{
+				if (M[j][i] > M[max][i])
+				{
+					max = j;
+				}
+			}
+			if (max != i)
+			{
+				swap(M[i], M[max]);
+			}
+			if (M[max][i] == 0)
+			{
+				cerr << "Invalid matrix";
+				exit(0);
+			}
+			for (size_t j = i + 1; j < size; j++)
+			{
+				Type temp = M[j][i] / M[i][i];
+				M[j] = M[j] - (M[i] * temp);
+				V[j] -= V[i] * temp;
+			}
 		}
+		Vector<Type> G(size);
+		for (int i = size - 1; i >= 0; i--)
+		{
+			G[i] = V[i];
+			for (size_t j = i + 1; j < size; j++)
+			{
+				G[i] -= G[j] * M[i][j];
+			}
+			G[i] /= M[i][i];
+		}
+		return G;
 	}
-	if (max != i)
-	{
-		swap(A[max], A[i]);
-	}
-	for (size_t j = i + 1; j < size; j++)
-	{
-		Type temp = A[j][i] / A[i][i];
-		A[j] = A[j] - A[i] * temp;
-	}
-	if (i < size - 2)
-	{
-		Gauss(A, i + 1, size);
-	}
-	return;
+private:
+	Matrix<Type> M;
 };
 
 int main()
 {
-	int n;
+	size_t n;
 	cin >> n;
 	Matrix<double> A(n);
 	cin >> A;
-	Gauss(A, 0, n);
-	cout << A;
+	Gauss<double> G(A);
+	Vector<double> V(n);
+	cin >> V;
+	cout << G.Solve(V);
 	return 0;
 }
