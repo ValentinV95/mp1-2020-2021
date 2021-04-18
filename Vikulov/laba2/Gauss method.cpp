@@ -11,16 +11,16 @@ using namespace std;
 template <typename T>
 class Vector {
 protected:
-	int size;
+	uint size;
 	T* data;
 public:
-	Vector() { size = 0; data = nullptr; }
-	Vector(int size) {
+	Vector<T>() { size = 0; data = nullptr; }
+	Vector<T>(int size) {
 		this->size = size;
 		data = new T[size];
 	}
 
-	Vector(const Vector& second) {
+	Vector<T>(const Vector& second) {
 		size = second.size;
 		data = new T[size];
 		for (int i = 0; i < size; i++)
@@ -46,7 +46,7 @@ public:
 
 	uint Get_size() { return this->size; }
 
-	Vector& operator = (const Vector& second) {
+	Vector<T>& operator = (Vector<T>& second) {
 		if (size != second.size) {
 			cout << "Присваивание векторов разной размерности невозможно!" << endl;
 			exit(-1);
@@ -57,7 +57,7 @@ public:
 		return *this;
 	}
 
-	Vector operator + (const Vector& second) {
+	Vector<T> operator + (Vector<T>& second) {
 		if (size != second.size) {
 			cout << "Сложение векторов разной размерности невозможно!" << endl;
 			exit(-2);
@@ -68,7 +68,7 @@ public:
 		return result;
 	}
 
-	Vector operator - (const Vector& second) {
+	Vector<T> operator - (Vector<T>& second) {
 		if (size != second.size) {
 			cout << "Вычитание векторов разной размерности невозможно!" << endl;
 			exit(-4);
@@ -79,7 +79,7 @@ public:
 		return result;
 	}
 
-	Vector operator * (T& number) {
+	Vector<T> operator * (T& number) {
 		Vector result = *this;
 		for (int i = 0; i < size; i++)
 			result.data[i] *= number;
@@ -100,31 +100,77 @@ public:
 		}
 		return data[coord];
 	}
+	template <typename T> friend istream& operator>>(istream& input, Vector<T>& vec);
+	template <typename T> friend ostream& operator<<(ostream& output, Vector<T>& vec);
+
 };
+
+template <typename T>
+ostream& operator << (ostream& output, Vector <T>& vec) {
+	for (int i = 0; i < vec.size; i++)
+		output << vec.data[i] << endl;
+	return output;
+}
+
+template <typename T> 
+istream& operator >> (istream& input, Vector <T>& vec) {
+	for (int i = 0; i < vec.size; i++)
+		input << vec.data[i] << endl;
+}
+
 
 template <typename T>
 class Matrix : public Vector< Vector<T> > {
 	//Vector T*
 public:
-	Matrix(int matrix_size) : Vector< Vector<T> >(matrix_size) {
+	Matrix <T> (int matrix_size) : Vector< Vector<T> >(matrix_size) {
 		for (int i = 0; i < matrix_size; i++)
-			data[i] = Vector <T>(matrix_size);
+			this->data[i] = Vector <T>(matrix_size);
+	}
+
+	Matrix<T>(Matrix& second) : Matrix(second.size)
+	{
+		for (int i = 0; i < size; i++)
+			this->data[i] = second.data[i];
 	}
 
 	void generate_random_matrix() {
-		for (int i = 0; i < size; i++)
-			for (int j = 0; j < size; j++)
-				data[i][j] = (10 + rand() % 50) / 100;
+		for (int i = 0; i < this->size; i++)
+			for (int j = 0; j < this->size; j++)
+				this->data[i][j] = (10 + rand() % 50) / 100;
 	}
 
 	void show_matrix() {
-		for (int i = 0; i < size; i++) {
-			for (int j = 0; j < size; j++)
-				cout << data[i][j] << ' ';
+		for (int i = 0; i < this->size; i++) {
+			for (int j = 0; j < this->size; j++)
+				cout << this->data[i][j] << ' ';
 		}
 		cout << endl;
 	}
+
+	template <typename T> friend istream& operator>>(istream& input, Matrix<T>& matrix);
+
+	template <typename T> friend ostream& operator<<(ostream& output, Matrix<T>& matrix);
+
+
 };
+
+template <typename T> 
+istream& operator >> (istream& input, Matrix<T>& matrix) {
+	for (int i = 0; i < matrix.size; i++)
+		input >> matrix[i];
+	return input;
+}
+
+template <typename T>
+ostream& operator << (ostream& output, Matrix<T>& matrix) {
+	for (int i = 0; i < matrix.size; i++)
+		output << matrix[i] << endl;
+	return output;
+}
+
+
+
 
 
 template <typename T>
@@ -221,8 +267,8 @@ public:
 int main() {
 	setlocale(LC_ALL, "Russian");
 	srand(time(NULL));
-	Vector <double> a(3), b(3), c(3);
+	
 	Matrix <double> A(3);
-
+	A.generate_random_matrix();
 	return 0;
 }
