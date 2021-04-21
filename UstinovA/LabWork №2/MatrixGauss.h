@@ -6,6 +6,18 @@ template <typename T>
 class Matrix : public Vector<Vector<T>> {
 public:
 	Matrix(size_t column, const Vector<T>& sample) : Vector<Vector<T>>(column, sample) {}
+
+	Vector<T> operator* (const Vector<T>& v) {
+		size_t column_size = this->GetSize();
+		size_t row_size = (*this)[0].GetSize();
+		Vector<T> result(column_size);
+
+		for (int i = 0; i < column_size; i++)
+			for (int j = 0; j < row_size; j++)
+				result[i] += (*this)[i][j] * v[j];
+
+		return result;
+	}
 };
 
 template <typename T>
@@ -32,7 +44,7 @@ protected:
 	}
 
 	void MatrixZeroTrimmer(GaussianMethod<T>& system, size_t m, size_t n) { // Зануление малых по модулю элементов вещественных типов (в матрице)
-		double eps = 10e-8; // Верхняя граница погрешности при сравнении с 0
+		double eps = 10e-9; // Верхняя граница погрешности при сравнении с 0
 		if (std::is_same<T, float>::value || std::is_same<T, double>::value)
 			for (size_t i = 0; i < m; i++)
 				for (size_t j = 0; j < n; j++)
@@ -40,7 +52,7 @@ protected:
 	}
 
 	void VectorZeroTrimmer(Vector<T>& vector, size_t n) { // Зануление малых по модулю элементов вещественных типов (в векторе-ответе)
-		double eps = 10e-7; // Верхняя граница погрешности при сравнении с 0
+		double eps = 10e-9; // Верхняя граница погрешности при сравнении с 0
 		if (std::is_same<T, float>::value || std::is_same<T, double>::value)
 			for (size_t i = 0; i < n; i++)
 				if (abs(vector[i]) < eps) vector[i] = zero;
@@ -85,6 +97,7 @@ public:
 		Vector<T> solution(row_size, zero); // Вектор решения
 		size_t max_point; // Позиция ведущего элемента в столбце
 
+		// Прямой ход метода Гаусса
 		if (ZeroColumnCheck(*this, column_size, row_size)) error(4);
 		else {
 
@@ -115,7 +128,7 @@ public:
 			}
 		}
 
-		// Вычисление вектора-решения, если решение единственное
+		// Вычисление вектора-решения, если решение единственное (обратный ход метода Гаусса)
 		for (int i = row_size - 1; i >= 0; i--) {
 			solution[i] = b[i];
 

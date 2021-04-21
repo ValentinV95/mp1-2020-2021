@@ -47,7 +47,7 @@ public:
 		for (size_t i = 0; i < size; i++)
 			data[i] = vec.data[i];
 	}
-	
+
 	template <typename U>
 	Vector(const Vector<U>& vec) {
 		if (size != vec.size) {
@@ -74,7 +74,6 @@ public:
 		for (size_t i = 0; i < vec.size; i++) {
 			ost << std::setprecision(5) << vec.data[i] << "\t";
 		}
-		ost << endl;
 		return ost;
 	}
 
