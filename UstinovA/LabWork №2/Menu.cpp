@@ -1,8 +1,8 @@
 #include <ctime>
 #include "MatrixGauss.h"
 
-#define current_zero 0 // Ноль текущего типа данных для СЛУ
-typedef double current_type; // Текущий тип данных для СЛУ
+#define current_zero 0 // РќРѕР»СЊ С‚РµРєСѓС‰РµРіРѕ С‚РёРїР° РґР°РЅРЅС‹С… РґР»СЏ РЎР›РЈ
+typedef double current_type; // РўРµРєСѓС‰РёР№ С‚РёРї РґР°РЅРЅС‹С… РґР»СЏ РЎР›РЈ
 
 #pragma warning (push)
 #pragma warning (disable: 4244)
@@ -48,7 +48,7 @@ void menu() {
 			case 1: {
 				alright0 = 1;
 
-				// Ввод количества уравнений
+				// Р’РІРѕРґ РєРѕР»РёС‡РµСЃС‚РІР° СѓСЂР°РІРЅРµРЅРёР№
 				do {
 					cout << "Enter number of equations: ";
 					cin >> column_size;
@@ -56,7 +56,7 @@ void menu() {
 					if (column_size <= 0) cout << "Incorrect input, try again" << endl;
 				} while (column_size <= 0);
 
-				// Ввод количества неизвестных
+				// Р’РІРѕРґ РєРѕР»РёС‡РµСЃС‚РІР° РЅРµРёР·РІРµСЃС‚РЅС‹С…
 				do {
 					cout << "Enter number of variables: ";
 					cin >> row_size;
@@ -66,9 +66,9 @@ void menu() {
 
 				cout << endl;
 
-				Vector<current_type> sample(row_size), right_hand_vector(column_size); // Строка-образец для инициализации матрицы
-				GaussianMethod<current_type> system(column_size, sample, current_zero); // Матрица коэффициентов
-				Vector<current_type> solution(row_size); // Вектор решения
+				Vector<current_type> sample(row_size), right_hand_vector(column_size); // РЎС‚СЂРѕРєР°-РѕР±СЂР°Р·РµС† РґР»СЏ РёРЅРёС†РёР°Р»РёР·Р°С†РёРё РјР°С‚СЂРёС†С‹
+				GaussianMethod<current_type> system(column_size, sample, current_zero); // РњР°С‚СЂРёС†Р° РєРѕСЌС„С„РёС†РёРµРЅС‚РѕРІ
+				Vector<current_type> solution(row_size); // Р’РµРєС‚РѕСЂ СЂРµС€РµРЅРёСЏ
 
 				cout << "Choose the way to enter the system of equations: " << endl << endl;
 
@@ -87,7 +87,7 @@ void menu() {
 						alright1 = 1;
 
 						cout << "Enter the matrix of coefficients in left-hand side: " << endl;
-						cin >> system; // Ввод матрицы коэффициентов в левой части
+						cin >> system; // Р’РІРѕРґ РјР°С‚СЂРёС†С‹ РєРѕСЌС„С„РёС†РёРµРЅС‚РѕРІ РІ Р»РµРІРѕР№ С‡Р°СЃС‚Рё
 						cout << endl;
 						break;
 					case 2:
@@ -124,7 +124,7 @@ void menu() {
 						alright2 = 1;
 
 						cout << "Enter the matrix of coefficients in right-hand vector: " << endl;
-						cin >> right_hand_vector; // Ввод столбца свободных коэффициентов в правой части
+						cin >> right_hand_vector; // Р’РІРѕРґ СЃС‚РѕР»Р±С†Р° СЃРІРѕР±РѕРґРЅС‹С… РєРѕСЌС„С„РёС†РёРµРЅС‚РѕРІ РІ РїСЂР°РІРѕР№ С‡Р°СЃС‚Рё
 						cout << endl;
 						break;
 					case 2:
@@ -150,7 +150,7 @@ void menu() {
 					cout << system[i] << "|" << right_hand_vector[i] << endl;
 				solution = system.Solve(right_hand_vector);
 
-				// Вывод решения в аккуратном виде (не через << класса Vector)
+				// Р’С‹РІРѕРґ СЂРµС€РµРЅРёСЏ РІ Р°РєРєСѓСЂР°С‚РЅРѕРј РІРёРґРµ (РЅРµ С‡РµСЂРµР· << РєР»Р°СЃСЃР° Vector)
 				cout << "Solution: " << endl;
 				for (size_t i = 0; i < solution.GetSize(); i++) {
 					cout << std::setprecision(5) << solution[i] << "  ";
