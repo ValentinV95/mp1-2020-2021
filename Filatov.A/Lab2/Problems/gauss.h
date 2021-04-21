@@ -2,8 +2,11 @@
 #include <iostream>
 #include <time.h>
 #include <random>
+#include <algorithm>
 
 using namespace std;
+
+const double e = 1e-9;
 
 template <typename Type>
 class Vector
@@ -30,6 +33,14 @@ public:
 	size_t get_size()
 	{
 		return size;
+	}
+	void Random()
+	{
+		srand(clock());
+		for (size_t i = 0; i < size; i++)
+		{
+			T[i] = (double)rand() / (double)rand();
+		}
 	}
 	Type& operator[](size_t i)
 	{
@@ -125,12 +136,12 @@ public:
 	}
 	void Random()
 	{
-		rand_s(10);
+		srand(clock());
 		for (size_t i = 0; i < size; i++)
 		{
 			for (size_t j = 0; j < size; j++)
 			{
-				T[i][j] = rand();
+				T[i][j] = (double)(rand()) / (double)(rand());
 			}
 		}
 	}
@@ -183,7 +194,7 @@ public:
 			size_t max = i;
 			for (size_t j = i + 1; j < size; j++)
 			{
-				if (M[j][i] > M[max][i])
+				if (M[j][i] - M[max][i] > e)
 				{
 					max = j;
 				}
@@ -192,7 +203,7 @@ public:
 			{
 				swap(M[i], M[max]);
 			}
-			if (M[max][i] == 0)
+			if (abs(M[max][i]) < e)
 			{
 				cerr << "Invalid matrix";
 				exit(0);
