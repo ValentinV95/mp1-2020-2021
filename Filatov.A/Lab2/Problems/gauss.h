@@ -3,6 +3,7 @@
 #include <time.h>
 #include <random>
 #include <algorithm>
+#include <iomanip>
 
 using namespace std;
 
@@ -194,7 +195,7 @@ public:
 			size_t max = i;
 			for (size_t j = i + 1; j < size; j++)
 			{
-				if (M[j][i] - M[max][i] > e)
+				if (abs(M[j][i]) - abs(M[max][i]) > e)
 				{
 					max = j;
 				}
@@ -202,8 +203,9 @@ public:
 			if (max != i)
 			{
 				swap(M[i], M[max]);
+				swap(V[i], V[max]);
 			}
-			if (abs(M[max][i]) < e)
+			if (abs(M[i][i]) < e)
 			{
 				cerr << "Invalid matrix";
 				exit(0);
