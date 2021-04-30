@@ -13,17 +13,19 @@ void error(int code) { // Выдача сообщений об ошибках и
 	case 1:
 		cerr << "Error: can't complete the operation - vectors have different length" << endl;
 		exit(1);
+		break;
 	case 2:
-		cerr << "System has no solutions" << endl;
-		exit(1);
+		cerr << "System has no solutions" << endl << endl;
+		break;
 	case 3:
-		cerr << "System has infinitely many solutions" << endl;
-		exit(1);
+		cerr << "System has infinitely many solutions" << endl << endl;
+		break;
 	case 4:
-		cerr << "System has a zero-column so it has no solutions or infinitely many solutions" << endl;
-		exit(1);
+		cerr << "System has a zero-column so it has no solutions or infinitely many solutions" << endl << endl;
+		break;
 	default:
-		cout << "Can't do anything with this input" << endl;
+		cout << "Can't do anything with this input" << endl << endl;
+		break;
 	}
 }
 
@@ -48,31 +50,11 @@ public:
 			data[i] = vec.data[i];
 	}
 
-	template <typename U>
-	Vector(const Vector<U>& vec) {
-		if (size != vec.size) {
-			size = vec.size;
-			delete[] data;
-			data = new T[size];
-		}
-		for (size_t i = 0; i < size; i++)
-			data[i] = (T)vec.data[i];
-	}
-
-	Vector concatenate(const Vector& vec2) {
-		Vector<T> result(this->size + vec2.size);
-		for (size_t i = 0; i < this->size; i++)
-			result[i] = (*this)[i];
-		for (size_t i = 0; i < vec2.size; i++)
-			result[this->size + i] = vec2[i];
-		return result;
-	}
-
 	size_t GetSize() { return size; }
 
 	friend std::ostream& operator<< (std::ostream& ost, const Vector& vec) {
 		for (size_t i = 0; i < vec.size; i++) {
-			ost << std::setprecision(5) << vec.data[i] << "\t";
+			ost << std::fixed << std::setprecision(5) << vec.data[i] << "\t";
 		}
 		return ost;
 	}
@@ -177,6 +159,21 @@ public:
 			exit(1);
 		}
 		else return data[i];
+	}
+
+	bool operator== (const Vector& vec) {
+		if (this == &vec) return true;
+
+		if (size != vec.size) return false;
+
+		for (size_t i = 0; i < size; i++)
+			if (data[i] != vec.data[i]) return false;
+
+		return true;
+	}
+
+	bool operator!= (const Vector& vec) {
+		return !(*this == vec);
 	}
 
 	~Vector() {
