@@ -186,8 +186,25 @@ public:
 		return str;
 	}
 
+	template<typename T>
+	friend double inaccuracy(vector<T> a, vector<T> b);
+
 	~vector()
 	{
 		delete[] data;
 	}
 };
+
+template<typename T>
+double inaccuracy(vector<T> a,vector<T> b)
+{
+	double result = 100;
+	for (int i = 0; i < a.size; i++)
+	{
+		if (abs(b[i] - a[i]) >= MIN && abs(b[i] - a[i]) < result)
+		{
+			result = abs(b[i] - a[i]);
+		}
+	}
+	return result;
+}

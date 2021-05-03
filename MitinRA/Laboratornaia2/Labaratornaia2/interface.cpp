@@ -117,7 +117,7 @@ void check()
 			ans = mat(ans);
 			if (ans != vec&&ans!=vector<double>(0))
 			{
-				cout << "Error\n" << "Matrix before Gauss\n" << mat1 << "Matrix after Gauss:\n" << mat << "Vector:\n" << vec << "Anser:\n" << ans;
+				cout << "Is not correct:\n" << inaccuracy(vec, ans) << '\n';
 				flag = true;
 			}
 
