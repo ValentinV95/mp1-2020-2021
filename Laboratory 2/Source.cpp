@@ -542,10 +542,7 @@ void userValues()
 void logic()
 {
 	int a;
-	cout <<  "\t\t----------------------------------------------------------------------------\n";
-	cout << "\t\t|A program for solving a system of linear equations by the Gaussian method |\n";
-	cout << "\t\t----------------------------------------------------------------------------\n\n";
-
+	
 	cout << " 1. Apply Gaussian method for a matrix with random numbers\n";
 	cout << " 2. Apply Gaussian method for matrix with custom numbers\n";
 	cout << " 3. Check if the Gaussian method is working correctly\n\n";
