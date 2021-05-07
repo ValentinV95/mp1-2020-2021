@@ -80,10 +80,15 @@ tryagain_vec:
 		std::cout << "plz enter again 1 or 2" << std::endl;
 		goto tryagain_flag;
 	}
+	vector<double> solution(1);
 	std::cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << std::endl;
-	//sqr_matrix.solve(vec_right);
+	sqr_matrix.triangle_lower(sqr_matrix, size, vec_right);
 	std::cout << std::endl;
-	std::cout << vec_right << std::endl;
+	std::cout << sqr_matrix << std::endl;
 	std::cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << std::endl;
+	std::cout << vec_right;
+	std::cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << std::endl;
+	sqr_matrix.reverse(sqr_matrix, vec_right, solution, size);
+	std::cout << solution;
 
 }

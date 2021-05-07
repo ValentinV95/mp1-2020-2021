@@ -1,7 +1,7 @@
 #include <iostream>
 #include <cmath>
 
-const double eps = 10e-9;
+const double eps = 1e-8;
 
 template <typename T>
 class vector {
@@ -59,9 +59,9 @@ public:
 	{
 		if (first != sec)
 		{
-			T tmp = this->data[first];
-			this->data[first] = this->data[sec];
-			this->data[first] = tmp;
+			T tmp = data[first];
+			data[first] = data[sec];
+			data[sec] = tmp;
 		}
 	}
 
@@ -163,22 +163,22 @@ public:
 
 	T& operator[](size_t i)
 	{
-		if (i < 0 || i >= size) 
+		/*if (i < 0 || i >= size) 
 		{
 			std::cout << "out of arr";
 			exit(-4);
-		}
+		}*/
 
 		return data[i];
 	}
 
 	const T& operator[](size_t i) const
 	{
-		if (i < 0 || i >= size) 
+		/*if (i < 0 || i >= size) 
 		{
 			std::cout << "out of arr";
 			exit(-5);
-		}
+		}*/
 
 		return data[i];
 	}
@@ -217,7 +217,7 @@ public:
 		}
 	}
 
-	~matrix(){}
+	//~matrix(){}
 
 	void set_random_matrix()
 	{
@@ -257,9 +257,9 @@ public:
 	size_t max_col(size_t col)
 	{
 		T max = this->data[col][col];
-		int num = col;
+		size_t num = col;
 
-		for (int i = col + 1; i < this->size; i++)
+		for (size_t i = col + 1; i < this->size; i++)
 		{
 			if (abs(max) < abs(this->data[i][col]))
 			{
@@ -281,9 +281,34 @@ public:
 		}
 	}
 
-	void solve(vector<T>& a)
+	void triangle_lower(matrix<T>& a, size_t n, vector<T>& vec) 
 	{
-		std::cout << solve << std::endl;
+		for (size_t i = 0; i < n - 1; ++i) {
+			size_t imax = max_col(i);
+			if (i != imax) {
+				swap(i, imax);
+				vec.vec_swap(i, imax);
+			}
+
+			for (size_t j = i + 1; j < n; ++j) {
+				T mul = -a[j][i] / a[i][i];
+				vec[j] += vec[i] * mul;
+				for (size_t k = i; k < n; ++k) {
+					a[j][k] += a[i][k] * mul;
+				}
+			}
+		}
+	}
+
+	void reverse(matrix<T>& a, vector<T>& vect, vector<T>& sol, size_t n)
+	{
+		for (int i = n - 1; i >= 0; i--) {
+			T temp = 0;
+			for (int j = i + 1; j < n; j++) {
+				temp += a[i][j] * sol[j];
+			}
+			sol[i] = (vect[i] - temp) / a[i][i];
+		}
 	}
 		
 };
