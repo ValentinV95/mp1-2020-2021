@@ -142,14 +142,14 @@ template <typename V>
 class matrix : public vector<vector<V>>
 {
 protected:
-    size_t height;
+    size_t width;
 public:
     matrix() {}
-    matrix(size_t width, size_t height) : vector<vector<V>>{ width }
+    matrix(size_t height, size_t width) : vector<vector<V>>{ height }
     {
-        this->size = width;
-        this->height = height;
-        vector<V> tmp = vector<V>(height);
+        this->size = height;
+        this->width = width;
+        vector<V> tmp = vector<V>(width);
         for (size_t i = 0; i < this->size; i++)
         {
             this->data[i] = tmp;
@@ -201,7 +201,7 @@ public:
     vector<double> gaussSolve()
     {
         size_t indmax;
-        for (size_t i = 0; i < height; i++)
+        for (size_t i = 0; i < width; i++)
         {
             indmax = collmax(i, i);
             double max = this->data[indmax][i];
@@ -225,7 +225,7 @@ public:
                 }
             }
         }
-        for (size_t i = 0; i < height; i++)
+        for (size_t i = 0; i < this->size; i++)
         {
             if (this->data[i][i] == 0)
             {
