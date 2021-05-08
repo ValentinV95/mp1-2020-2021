@@ -316,6 +316,19 @@ public:
 			}
 		}
 
+		size_t p = 0;
+		for (size_t i = 0; i < n; i++)
+			if (a[i][i] == 0)
+			{
+				for (size_t j = 0; j < n; j++)
+					if (a[i][j] == 0)
+						p = p + 1;
+				if (p == n && sol[i] != 0)
+				{
+					std::cout << "no solutions / [ infinity ] ";
+					exit(-9);
+				}
+			}
 
 		for (size_t i = 0; i < n; i++)
 			std::cout << "X["<< i+1 << "]" << " = " <<sol.get_data(i) << "\t\t" << std::endl;

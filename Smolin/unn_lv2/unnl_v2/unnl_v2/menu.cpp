@@ -7,7 +7,7 @@ void menu_init() {
 	int choice_vec, choice_matrix;
 	size_t size;
 	std::cout << "\t\t\t\t\t\t-------------------" << std::endl;
-	std::cout << "\t\t\t\t\t\tlaboratory work ยน 2" << std::endl;
+	std::cout << "\t\t\t\t\t\tlaboratory work น 2" << std::endl;
 	std::cout << "\t\t\t\t\t\t-------------------" << std::endl;
 
 	std::cout << "------------------" << std::endl;
@@ -80,8 +80,11 @@ tryagain_vec:
 		std::cout << "plz enter again 1 or 2" << std::endl;
 		goto tryagain_flag;
 	}
+	//vector<double> solution(1);
 	std::cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << std::endl;
 	sqr_matrix.triangle_lower(sqr_matrix, size , vec_right);
 	std::cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << std::endl;
-	system( "pause" );
+
+	system("pause");
+
 }
