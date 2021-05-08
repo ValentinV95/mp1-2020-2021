@@ -4,21 +4,21 @@
 
 namespace lab {
 
-	enum equationsResults { OK, INCONSISTENT, INF_SOLUTIONS };
+	enum class eqResults { OK, INCONSISTENT, INF_SOLUTIONS };
 
 	template <typename T, typename pivotType = basePivot<T>, typename predType = isEqual<T>>
-	Matrix<T> solveEquationSystem(Matrix<T> sys, vector<T>& ans, int& err, 
+	Matrix<T> solveEquationSystem(Matrix<T> sys, vector<T>& ans, eqResults& err,
 								  pivotType pivot = pivotType(), predType pred = predType(),
 								  bool isTriangle = false)
 	{
-		err = equationsResults::OK;
+		err = eqResults::OK;
 
 		if (!isTriangle) {
 			sys.gauss(pivot, pred);
 		}
 
 		if (sys.size().first + 1 != sys.size().second) {
-			err = equationsResults::INF_SOLUTIONS;
+			err = eqResults::INF_SOLUTIONS;
 			
 			if (sys.size().first + 1 > sys.size().second) {
 				bool flag = true;
@@ -31,7 +31,7 @@ namespace lab {
 				}
 
 				if (flag) {
-					err = equationsResults::INCONSISTENT;
+					err = eqResults::INCONSISTENT;
 				}
 			}
 		}
@@ -52,10 +52,10 @@ namespace lab {
 				ans[i] = sys[i].back() - sum;
 				if (sys[i][i] == 0) {
 					if (ansIsNull) {
-						err = equationsResults::INF_SOLUTIONS;
+						err = eqResults::INF_SOLUTIONS;
 					}
 					else {
-						err = equationsResults::INCONSISTENT;
+						err = eqResults::INCONSISTENT;
 					}
 
 					break;

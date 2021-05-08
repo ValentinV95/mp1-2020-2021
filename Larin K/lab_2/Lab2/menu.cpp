@@ -99,7 +99,7 @@ namespace
 					matrix[i][j] = T(distr(_rand));
 				}
 				else {
-					matrix[i][j] = rational(int64_t(distr(_rand) * 1e+16), int64_t(1e+16));
+					matrix[i][j] = rational(int64_t(distr(_rand) * 1e+10), int64_t(1e+10));
 				}
 			}
 		}
@@ -182,7 +182,7 @@ namespace
 	void printSolveResult(Matrix<T>& matrix)
 	{
 		lab::vector<T> ans;
-		int err;
+		eqResults err;
 
 		if constexpr (is_same_v<T, rational>) {
 			solveEquationSystem(matrix, ans, err, [](const Matrix<T>& m, size_t colum) {
@@ -197,10 +197,10 @@ namespace
 			solveEquationSystem(matrix, ans, err);
 		}
 
-		if (err == equationsResults::INCONSISTENT) {
+		if (err == eqResults::INCONSISTENT) {
 			cout << "the system is inconsistent\n";
 		}
-		else if (err == equationsResults::INF_SOLUTIONS) {
+		else if (err == eqResults::INF_SOLUTIONS) {
 			cout << "infinite number of solutions\n";
 		}
 		else {
