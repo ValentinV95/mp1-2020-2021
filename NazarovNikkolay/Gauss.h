@@ -74,74 +74,58 @@ public:
 	}
 
 	T mod(T a) {
-		if (a < 0)
-		{
+		if (a < 0){
 			return -a;
 		}
-		else
-		{
+		else{
 			return a;
 		}
 	}
 
-	Vector <T> gaussMethod()
-	{
-		for (int j = 0; j < this->size; j++)
-		{
+	Vector <T> gaussMethod(){
+		for (int j = 0; j < this->size; j++){
 			int i = 0;
 			int max_index = i + j;
 			T max = mod(this->data[i + j][j]);
-			for (i + j + 1; i + j + 1 < this->size; i++);
-			{
-				if (mod(this->data[i + j][j]) > max)
-				{
+			for (i + j + 1; i + j + 1 < this->size; i++);{
+				if (mod(this->data[i + j][j]) > max){
 					max_index = i + j;
 				}
 			}
 			swap(j, max_index);
-			for (int n = j + 1; n < this->size; n++)
-			{
-				if (this->data[j][j] != 0)
-				{
-					for (int k = j; k < this->size; k++)
-					{
+			for (int n = j + 1; n < this->size; n++){
+				if (this->data[j][j] != 0){
+					for (int k = j; k < this->size; k++){
 						this->data[n][k] += this->data[j][k] * (-(this->data[n][j] / this->data[j][j]));
 					}
 					rightVector[n] += rightVector[j] * (-(this->data[n][j] / this->data[j][j]));
 				}
-				else
-				{
+				else{
 					cout << "ERROR: Деление на 0" << endl;
 					exit(3);
 				}
 			}
 		}
 
-		for (int i = 0; i < this->size; i++)
-		{
+		for (int i = 0; i < this->size; i++){
 			T sum = 0;
-			for (int j = 0; j < this->size; j++)
-			{
+			for (int j = 0; j < this->size; j++){
 				sum += mod(this->data[i][j]);
 			}
-			if ((sum == 0) && (rightVector[i] != 0))
-			{
+			if ((sum == 0) && (rightVector[i] != 0)){
 				cout << "Система не совместна - решений не имеет" << endl;
 				exit(2);
 			}
-			if ((sum == 0) && (rightVector[i] == 0))
-			{
+			if ((sum == 0) && (rightVector[i] == 0)){
 				cout << "Система не имеет частных решений." << endl;
 				exit(3);
 			}
 		}
 
 		T* res = new T[this->size];
-		for (int i = this->size - 1; i >= 0; i--)
-		{
+		for (int i = this->size - 1; i >= 0; i--){
 			T tmp = 0;
-			for (int j = i + 1; j < this->size; j++)
-			{
+			for (int j = i + 1; j < this->size; j++){
 				tmp += this->data[i][j] * res[j];
 			}
 			res[i] = (rightVector[i] - tmp) / this->data[i][i];
