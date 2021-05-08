@@ -16,7 +16,7 @@ namespace lab {
 		bool operator()(const T& left, const T& right)
 		{
 			if constexpr (is_floating_point_v<T>) {
-				return std::abs(std::abs(left) - std::abs(right)) < std::numeric_limits<T>::epsilon() * 10000;
+				return std::abs(left - right) < std::numeric_limits<T>::epsilon() * 10000;
 			}
 			else {
 				return left == right;
