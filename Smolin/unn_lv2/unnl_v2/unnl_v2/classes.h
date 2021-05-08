@@ -283,11 +283,15 @@ public:
 
 	void triangle_lower(matrix<T>& a, size_t n, vector<T>& vec) 
 	{
-		for (size_t i = 0; i < n - 1; ++i) {
+		for (size_t i = 0; i < n - 1; ++i) { // n - 1 
 			size_t imax = max_col(i);
 			if (i != imax) {
 				swap(i, imax);
 				vec.vec_swap(i, imax);
+			}
+			if (abs(a[i][i]) < eps)
+			{
+				std::cout << "System is linearly dependent\n\n";
 			}
 
 			for (size_t j = i + 1; j < n; ++j) {
@@ -298,17 +302,22 @@ public:
 				}
 			}
 		}
-	}
 
-	void reverse(matrix<T>& a, vector<T>& vect, vector<T>& sol, size_t n)
-	{
-		for (int i = n - 1; i >= 0; i--) {
+		vector<T> sol(n);
+		for (int i = n - 1; i >= 0; --i) {
 			T temp = 0;
-			for (int j = i + 1; j < n; j++) {
+			for (int j = i + 1; j < n; ++j) {
 				temp += a[i][j] * sol[j];
 			}
-			sol[i] = (vect[i] - temp) / a[i][i];
+			sol[i] = (vec[i] - temp) / a[i][i];
+			if (abs(sol[i]) < eps)
+			{
+				sol[i] = 0;
+			}
 		}
-	}
-		
+
+
+		for (size_t i = 0; i < n; i++)
+			std::cout << "X["<< i+1 << "]" << " = " <<sol.get_data(i) << "\t\t" << std::endl;
+	}	
 };
