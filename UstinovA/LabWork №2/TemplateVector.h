@@ -54,7 +54,7 @@ public:
 
 	friend std::ostream& operator<< (std::ostream& ost, const Vector& vec) {
 		for (size_t i = 0; i < vec.size; i++) {
-			ost << std::fixed << std::setprecision(5) << vec.data[i] << "\t";
+			ost << std::fixed << vec.data[i] << "\t";
 		}
 		return ost;
 	}
