@@ -269,9 +269,10 @@ public:
 		size_t tj = 0;
 		for (size_t i = 0; i < size_1M; i++)
 		{
+			count1 = 0;
 			while (count1 == 0)
 			{ 
-				if (linkM[tj][i] != 0 & counter[tj] == 0)
+				if (linkM[tj][i] != 0 && counter[tj] == 0)
 				{
 					counter[tj]++;
 					temp = linkM[tj][i];
@@ -283,21 +284,23 @@ public:
 							linkM[tj][J] = (-1) * linkM[tj][J];
 						}
 					}
-					if (tj != size_1M)
+					if (tj < size_1M)
 					{
-						if (linkM[tj + 1][i] != 0)//зануляем ниже ведущего
+						if (linkM[(tj + 1)][i] != 0)//зануляем ниже ведущего
 						{
-							if (linkM[tj + 1][i] > 0)
+							if (linkM[(tj + 1)][i] > 0)
 							{
-								for (size_t i1 = tj + 1; i1 < size_1M; i1++)
+								for (size_t i1 = (tj + 1); i1 < size_1M; i1++)
 								{
-									temp1 = linkM[tj][i] / linkM[i1][i];
-									for (size_t B = 0; B < size_1M; B++)
+									temp1 = linkM[i1][i] / linkM[tj][i];
+									for (size_t B = tj; B < size_1M; B++)
 									{
 										linkM[i1][B] = linkM[i1][B] - temp1 * linkM[tj][i];
 									}
-
+									
 								}
+								cout << "Получилось:" << endl;
+								this->printm();
 							}
 							else
 							{
@@ -312,33 +315,35 @@ public:
 								}
 							}
 						}
-						if (tj != 0)
+						
+						
+					}
+					if (tj != 0)
+					{
+						if (linkM[tj - 1][i] != 0)//зануляем выше ведущего
 						{
-							if (linkM[tj - 1][i] != 0)//зануляем выше ведущего
+							if (linkM[tj - 1][i] > 0)
 							{
-								if (linkM[tj - 1][i] > 0)
+								for (size_t i1 = tj - 1; i1 > 0; i1--)
 								{
-									for (size_t i1 = tj - 1; i1 > 0; i1--)
+									temp1 = linkM[i1][i] / linkM[tj][i];
+									for (size_t B = 0; B < size_1M; B++)
 									{
-										temp1 = linkM[tj][i] / linkM[i1][i];
-										for (size_t B = 0; B < size_1M; B++)
-										{
-											linkM[i1][B] = linkM[i1][B] - temp1 * linkM[tj][i];
-										}
-
+										linkM[i1][B] = linkM[i1][B] - temp1 * linkM[tj][i];
 									}
+
 								}
-								else
+							}
+							else
+							{
+								for (size_t i1 = tj - 1; i1 > 0; i1--)
 								{
-									for (size_t i1 = tj - 1; i1 > 0; i1--)
+									temp1 = linkM[i1][i] / linkM[tj][i];
+									for (size_t B = 0; B < size_1M; B++)
 									{
-										temp1 = linkM[tj][i] / linkM[i1][i];
-										for (size_t B = 0; B < size_1M; B++)
-										{
-											linkM[i1][B] = linkM[i1][B] + temp1 * linkM[tj][i];
-										}
-
+										linkM[i1][B] = linkM[i1][B] + temp1 * linkM[tj][i];
 									}
+
 								}
 							}
 						}
@@ -350,7 +355,7 @@ public:
 					count1++;
 				}
 				tj++;
-				if (tj >= size_1M) { count1++; tj = 0; }
+				if (tj >= size_1M-1) { count1++; tj = 0; }
 			}
 		}
 
@@ -361,7 +366,7 @@ public:
 	void main()
 	{
 		setlocale(LC_ALL, "Russian");
-		matrix<double> test(3);
+		matrix<double> test(4);
 		test.fill_randomly();
 		test.printm();
 		test.Gauss();
