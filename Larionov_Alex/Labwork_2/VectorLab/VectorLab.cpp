@@ -4,7 +4,7 @@ template <class T>
 class vector
 {
 public:
-	T** link, input; size_t size_1, size_2; size_t v = 1;
+	T** link, input; size_t size_1, size_2; 
 	vector()
 	{ 
 		 link = nullptr; 
@@ -134,7 +134,7 @@ template <class T>
 class matrix :public vector<vector<T>>
 {
 public:
-	vector<T> A{};
+	/*vector<T> A{};
 	matrix<T>(size_t size1)
 	{
 	vector<T> matrix(size1, size1);
@@ -151,27 +151,219 @@ public:
 		vector<T> temp(A.size1, A.size1);
 		temp = A;
 		temp.print();
+	}*/
+	T** linkM, inputM; size_t size_1M, size_2M;
+
+	matrix<T>(size_t size1, size_t size2)
+	{
+		size_1M = size1;
+		size_2M = size2;
+		inputM = 0;
+		linkM = new T * [size_1M];
+		for (size_t i = 0; i < this->size_1M; i++)
+		{
+			linkM[i] = new T[size_2M];
+		}
+		for (size_t i = 0; i < (this->size_1M); i++)
+		{
+			for (size_t j = 0; j < this->size_2M; j++)
+			{
+				linkM[i][j] = 0;
+			}
+		}
+	}
+	matrix<T>(size_t size1)
+	{
+		size_1M = size1;
+		size_2M = size1;
+		inputM = 0;
+		linkM = new T * [size_1M];
+		for (size_t i = 0; i < this->size_1M; i++)
+		{
+			linkM[i] = new T[size_2M];
+		}
+		for (size_t i = 0; i < (this->size_1M); i++)
+		{
+			for (size_t j = 0; j < this->size_2M; j++)
+			{
+				linkM[i][j] = 0;
+			}
+		}
+	}
+	void fill_manually()
+	{
+		for (size_t i = 0; i < (this->size_1M); i++)
+		{
+			for (size_t j = 0; j < this->size_2M; j++)
+			{
+				cin >> inputM;
+				this->linkM[i][j] = inputM;
+			}
+		}
+	}
+	void printm()
+	{
+		for (int i = 0; i < (this->size_1M); i++)
+		{
+			for (size_t j = 0; j < this->size_2M; j++)
+			{
+				cout << this->linkM[i][j] << "		";
+			}
+			cout << "" << endl;
+		}
+	}
+	void fill_randomly()
+	{
+		srand(time(NULL));
+		for (size_t i = 0; i < (this->size_1M); i++)
+		{
+			for (size_t j = 0; j < this->size_2M; j++)
+			{
+				this->linkM[i][j] = rand();
+			}
+		}
+	}
+	void swap(size_t initial, size_t swappable)
+	{
+		T* temp;
+		temp = new T[this->size_2M];
+		for (size_t j = 0; j < size_2M; j++)
+		{
+			temp[j] = linkM[initial][j];
+			linkM[initial][j] = linkM[swappable][j];
+			linkM[swappable][j] = temp[j];
+		}
+	}
+	void Gauss()
+	{
+		T temp, temp1; int* counter; size_t count = 0, trash = 0, count1 = 0, count2 = 0, spare1 = 0, spare2 = 0;
+		for (size_t i = 0; i < size_1M; i++)
+		{
+			for (size_t j = 0; j < size_1M; j++)
+			{
+				if (linkM[j][i] == 0) { count1++; }
+				if (linkM[i][j] == 0) { count2++; }
+			}
+			if (count1 == size_1M)
+			{
+				spare1++;
+			}
+			if (count2 == size_1M)
+			{
+				spare2++;
+			}
+			count1 = 0;
+			count2 = 0;
+		}
+		if (spare1 != 0)
+		{
+			cout << "Нет решений" << endl;
+		}
+		else { if (spare2 != 0) { cout << "Бесконечно много решений" << endl; } }
+		count = 0; trash = 0; count1 = 0; count2 = 0; spare1 = 0; spare2 = 0;
+		counter = new int[size_1M];
+		for (size_t i = 0; i < size_1M; i++)
+		{
+			counter[i] = 0;
+		}
+		size_t tj = 0;
+		for (size_t i = 0; i < size_1M; i++)
+		{
+			while (count1 == 0)
+			{ 
+				if (linkM[tj][i] != 0 & counter[tj] == 0)
+				{
+					counter[tj]++;
+					temp = linkM[tj][i];
+					for (size_t J=0; J < size_1M; J++)
+					{
+						linkM[tj][J] = linkM[tj][J] / temp;
+						if (linkM[tj][J] < 0)
+						{
+							linkM[tj][J] = (-1) * linkM[tj][J];
+						}
+					}
+					if (tj != size_1M)
+					{
+						if (linkM[tj + 1][i] != 0)//зануляем ниже ведущего
+						{
+							if (linkM[tj + 1][i] > 0)
+							{
+								for (size_t i1 = tj + 1; i1 < size_1M; i1++)
+								{
+									temp1 = linkM[tj][i] / linkM[i1][i];
+									for (size_t B = 0; B < size_1M; B++)
+									{
+										linkM[i1][B] = linkM[i1][B] - temp1 * linkM[tj][i];
+									}
+
+								}
+							}
+							else
+							{
+								for (size_t i1 = tj + 1; i1 < size_1M; i1++)
+								{
+									temp1 = linkM[tj][i] / linkM[i1][i];
+									for (size_t B = 0; B < size_1M; B++)
+									{
+										linkM[i1][B] = linkM[i1][B] + temp1 * linkM[tj][i];
+									}
+
+								}
+							}
+						}
+						if (tj != 0)
+						{
+							if (linkM[tj - 1][i] != 0)//зануляем выше ведущего
+							{
+								if (linkM[tj - 1][i] > 0)
+								{
+									for (size_t i1 = tj - 1; i1 > 0; i1--)
+									{
+										temp1 = linkM[tj][i] / linkM[i1][i];
+										for (size_t B = 0; B < size_1M; B++)
+										{
+											linkM[i1][B] = linkM[i1][B] - temp1 * linkM[tj][i];
+										}
+
+									}
+								}
+								else
+								{
+									for (size_t i1 = tj - 1; i1 > 0; i1--)
+									{
+										temp1 = linkM[tj][i] / linkM[i1][i];
+										for (size_t B = 0; B < size_1M; B++)
+										{
+											linkM[i1][B] = linkM[i1][B] + temp1 * linkM[tj][i];
+										}
+
+									}
+								}
+							}
+						}
+					}
+					else
+					{
+
+					}
+					count1++;
+				}
+				tj++;
+				if (tj >= size_1M) { count1++; tj = 0; }
+			}
+		}
+
+
+
 	}
 };
-int main()
-{
-	/*
-	vector<int> A(2, 2), B(2, 2), C(2, 2);
-	A.fill_manually(A); B.fill_manually(B);
-	A.print(); B.print();
-	cout << "Сложение А+В" << endl;
-	C = A + B;
-	C.print();	A.print(); B.print();
-	cout << "Разность B-C" << endl;
-	A = B - C;
-	C.print();	A.print(); B.print();
-	cout << "Произведение 2*B" << endl;
-	A = 2 * B; 
-	C.print();	A.print(); B.print();
-	cout << "Деление 2B/2" << endl;
-	B=A/2;
-	C.print();	A.print(); B.print();*/
-	matrix<int> M(5);
-	M.fill_manually();
-	//M.printm();
-};
+	void main()
+	{
+		setlocale(LC_ALL, "Russian");
+		matrix<double> test(3);
+		test.fill_randomly();
+		test.printm();
+		test.Gauss();
+		test.printm();
+	}
