@@ -1,0 +1,4 @@
+﻿  radix.c
+C:\Users\aura\Desktop\Лаба\SortAlg\SortAlg\radix.c(12,8): warning C4013: memset: нет определения; предполагается "extern" с возвратом типа "int"
+C:\Users\aura\Desktop\Лаба\SortAlg\SortAlg\radix.c(42,10): warning C4101: temp: неиспользованная локальная переменная
+  SortAlg.vcxproj -> C:\Users\aura\Desktop\Лаба\SortAlg\Debug\SortAlg.exe

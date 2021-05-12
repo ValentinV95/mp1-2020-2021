@@ -1,0 +1,7 @@
+﻿  radix.c
+C:\Users\aura\Desktop\Лаба\SortAlg\SortAlg\radix.c(42,10): warning C4101: temp: неиспользованная локальная переменная
+  Создание кода
+  Previous IPDB and IOBJ mismatch, fall back to full compilation.
+  All 19 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  Создание кода завершено
+  SortAlg.vcxproj -> C:\Users\aura\Desktop\Лаба\SortAlg\Release\SortAlg.exe
