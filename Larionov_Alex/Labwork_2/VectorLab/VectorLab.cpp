@@ -153,7 +153,6 @@ public:
 		temp.print();
 	}*/
 	T** linkM, inputM; size_t size_1M, size_2M;
-
 	matrix<T>(size_t size1, size_t size2)
 	{
 		size_1M = size1;
@@ -226,149 +225,214 @@ public:
 	void swap(size_t initial, size_t swappable)
 	{
 		T* temp;
-		temp = new T[this->size_2M];
-		for (size_t j = 0; j < size_2M; j++)
+		temp = new T[this->size_1M];
+		for (size_t j = 0; j < size_1M; j++)
 		{
 			temp[j] = linkM[initial][j];
 			linkM[initial][j] = linkM[swappable][j];
 			linkM[swappable][j] = temp[j];
 		}
 	}
+	void nullify_row(size_t i)
+	{
+		T temp;
+		if (linkM[i][i] != 0)
+		{
+			if (linkM[i][i] < 0)
+			{
+				for (size_t j = 0; j < this->size_1M; j++)
+				{
+					linkM[i][j] = (-1) * linkM[i][j];
+				}
+			}
+			for (size_t i1 = i; i1 < this->size_1M - 1; i1++)
+			{
+				if (linkM[i1 + 1][i] != 0)
+				{
+					if (linkM[i1 + 1][i] < 0)
+					{
+						for (size_t j = 0; j < this->size_1M; j++)
+						{
+							linkM[i1 + 1][j] = (-1) * linkM[i1 + 1][j];
+						}
+					}
+					temp = linkM[i1 + 1][i] / linkM[i][i];
+					for (size_t J = 0; J < this->size_1M; J++)
+					{
+						linkM[i1 + 1][J] = linkM[i1 + 1][J] - linkM[i][J] * temp;
+					}
+				}
+			}
+			/*for (size_t i1 = i; i1 > 1; i1--)
+			{
+				if (linkM[i1-1][i] != 0)
+				{
+					if (linkM[i1 - 1][i] < 0)
+					{
+						for (size_t j = 0; j < this->size_1M; j++)
+						{
+							linkM[i1 - 1][j] = (-1) * linkM[i1 - 1][j];
+						}
+					}
+					temp = linkM[i1 - 1][i] / linkM[i][i];
+					for (size_t J = 0; J < this->size_1M; J++)
+					{
+						linkM[i1 - 1][J] = linkM[i1 - 1][J] - linkM[i][J] * temp;
+					}
+				}
+			}*/
+		}
+		else
+		{
+			cout << "Бесконечно много решений" << endl;
+		}
+	}
 	void Gauss()
 	{
-		T temp, temp1; int* counter; size_t count = 0, trash = 0, count1 = 0, count2 = 0, spare1 = 0, spare2 = 0;
-		for (size_t i = 0; i < size_1M; i++)
-		{
-			for (size_t j = 0; j < size_1M; j++)
-			{
-				if (linkM[j][i] == 0) { count1++; }
-				if (linkM[i][j] == 0) { count2++; }
-			}
-			if (count1 == size_1M)
-			{
-				spare1++;
-			}
-			if (count2 == size_1M)
-			{
-				spare2++;
-			}
-			count1 = 0;
-			count2 = 0;
-		}
-		if (spare1 != 0)
-		{
-			cout << "Нет решений" << endl;
-		}
-		else { if (spare2 != 0) { cout << "Бесконечно много решений" << endl; } }
-		count = 0; trash = 0; count1 = 0; count2 = 0; spare1 = 0; spare2 = 0;
-		counter = new int[size_1M];
-		for (size_t i = 0; i < size_1M; i++)
-		{
-			counter[i] = 0;
-		}
-		size_t tj = 0;
-		for (size_t i = 0; i < size_1M; i++)
-		{
-			count1 = 0;
-			while (count1 == 0)
-			{ 
-				if (linkM[tj][i] != 0 && counter[tj] == 0)
+		/*{
+			T temp, temp1; int* counter; size_t count = 0, trash = 0, count1 = 0, count2 = 0, spare1 = 0, spare2 = 0;
+			for (size_t i = 0; i < size_1M; i++)
 				{
-					counter[tj]++;
-					temp = linkM[tj][i];
-					for (size_t J=0; J < size_1M; J++)
+					for (size_t j = 0; j < size_1M; j++)
 					{
-						linkM[tj][J] = linkM[tj][J] / temp;
-						if (linkM[tj][J] < 0)
-						{
-							linkM[tj][J] = (-1) * linkM[tj][J];
-						}
+						if (linkM[j][i] == 0) { count1++; }
+						if (linkM[i][j] == 0) { count2++; }
 					}
-					if (tj < size_1M)
+					if (count1 == size_1M)
 					{
-						if (linkM[(tj + 1)][i] != 0)//зануляем ниже ведущего
-						{
-							if (linkM[(tj + 1)][i] > 0)
-							{
-								for (size_t i1 = (tj + 1); i1 < size_1M; i1++)
-								{
-									temp1 = linkM[i1][i] / linkM[tj][i];
-									for (size_t B = tj; B < size_1M; B++)
-									{
-										linkM[i1][B] = linkM[i1][B] - temp1 * linkM[tj][i];
-									}
-									
-								}
-								cout << "Получилось:" << endl;
-								this->printm();
-							}
-							else
-							{
-								for (size_t i1 = tj + 1; i1 < size_1M; i1++)
-								{
-									temp1 = linkM[tj][i] / linkM[i1][i];
-									for (size_t B = 0; B < size_1M; B++)
-									{
-										linkM[i1][B] = linkM[i1][B] + temp1 * linkM[tj][i];
-									}
-
-								}
-							}
-						}
-						
-						
+						spare1++;
 					}
-					if (tj != 0)
+					if (count2 == size_1M)
 					{
-						if (linkM[tj - 1][i] != 0)//зануляем выше ведущего
-						{
-							if (linkM[tj - 1][i] > 0)
-							{
-								for (size_t i1 = tj - 1; i1 > 0; i1--)
-								{
-									temp1 = linkM[i1][i] / linkM[tj][i];
-									for (size_t B = 0; B < size_1M; B++)
-									{
-										linkM[i1][B] = linkM[i1][B] - temp1 * linkM[tj][i];
-									}
-
-								}
-							}
-							else
-							{
-								for (size_t i1 = tj - 1; i1 > 0; i1--)
-								{
-									temp1 = linkM[i1][i] / linkM[tj][i];
-									for (size_t B = 0; B < size_1M; B++)
-									{
-										linkM[i1][B] = linkM[i1][B] + temp1 * linkM[tj][i];
-									}
-
-								}
-							}
-						}
+						spare2++;
 					}
-					else
-					{
-
-					}
-					count1++;
+					count1 = 0;
+					count2 = 0;
 				}
-				tj++;
-				if (tj >= size_1M-1) { count1++; tj = 0; }
-			}
-		}
+			if (spare1 != 0)
+				{
+					cout << "Нет решений" << endl;
+				}
+			else { if (spare2 != 0) { cout << "Бесконечно много решений" << endl; } }
+			/*for (size_t i = 0; i < size_1M; i++)
+					{
+						count1 = 0;
+						while (count1 == 0)
+						{
+							if (linkM[tj][i] != 0 && counter[tj] == 0)
+							{
+								counter[tj]++;
+								temp = linkM[tj][i];
+								for (size_t J=0; J < size_1M; J++)
+								{
+									linkM[tj][J] = linkM[tj][J] / temp;
+									if (linkM[tj][J] < 0)
+									{
+										linkM[tj][J] = (-1) * linkM[tj][J];
+									}
+								}
+								if (tj < size_1M)
+								{
+									if (linkM[(tj + 1)][i] != 0)//зануляем ниже ведущего
+									{
+										if (linkM[(tj + 1)][i] > 0)
+										{
+											for (size_t i1 = (tj + 1); i1 < size_1M; i1++)
+											{
+												temp1 = linkM[i1][i] / linkM[tj][i];
+												for (size_t B = tj; B < size_1M; B++)
+												{
+													linkM[i1][B] = linkM[i1][B] - temp1 * linkM[tj][i];
+												}
 
+											}
+											cout << "Получилось:" << endl;
+											this->printm();
+										}
+										else
+										{
+											for (size_t i1 = tj + 1; i1 < size_1M; i1++)
+											{
+												temp1 = linkM[tj][i] / linkM[i1][i];
+												for (size_t B = 0; B < size_1M; B++)
+												{
+													linkM[i1][B] = linkM[i1][B] + temp1 * linkM[tj][i];
+												}
+
+											}
+										}
+									}
+
+
+								}
+								if (tj != 0)
+								{
+									if (linkM[tj - 1][i] != 0)//зануляем выше ведущего
+									{
+										if (linkM[tj - 1][i] > 0)
+										{
+											for (size_t i1 = tj - 1; i1 > 0; i1--)
+											{
+												temp1 = linkM[i1][i] / linkM[tj][i];
+												for (size_t B = 0; B < size_1M; B++)
+												{
+													linkM[i1][B] = linkM[i1][B] - temp1 * linkM[tj][i];
+												}
+
+											}
+										}
+										else
+										{
+											for (size_t i1 = tj - 1; i1 > 0; i1--)
+											{
+												temp1 = linkM[i1][i] / linkM[tj][i];
+												for (size_t B = 0; B < size_1M; B++)
+												{
+													linkM[i1][B] = linkM[i1][B] + temp1 * linkM[tj][i];
+												}
+
+											}
+										}
+									}
+								}
+								else
+								{
+
+								}
+								count1++;
+							}
+							tj++;
+							if (tj >= size_1M-1) { count1++; tj = 0; }
+						}
+					}
+					
+		}*/
+		size_t tempc=0;
+		for (size_t i = 0; i < this->size_1M; i++)
+		{
+			for (size_t j = i; j < this->size_1M-1; j++)
+			{
+				tempc = j;
+				if(linkM[i][j]<linkM[i][j+1])
+				{
+					tempc = j + 1;
+				}
+				
+			}
+			this->swap(i, tempc);
+			this->nullify_row(i);
+		}
 
 
 	}
 };
-	void main()
-	{
-		setlocale(LC_ALL, "Russian");
-		matrix<double> test(4);
-		test.fill_randomly();
-		test.printm();
-		test.Gauss();
-		test.printm();
-	}
+void main()
+{
+	setlocale(LC_ALL, "Russian");
+	matrix<double> test(4);
+	test.fill_randomly();
+	test.printm();
+	test.Gauss();
+	cout<< "    " << endl;
+	test.printm();
+}
