@@ -1,8 +1,8 @@
 #include<iostream>
 #include<cmath>
 #include<time.h>
-#include"Vector.cpp"
-#include"Matrix.cpp"
+#include"Vector.h"
+#include"Matrix.h"
 #include"interface.h"
 
 using namespace std;

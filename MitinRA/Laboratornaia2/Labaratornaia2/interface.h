@@ -1,7 +1,7 @@
 #pragma once
 #include<iostream>
-#include"Vector.cpp"
-#include"Matrix.cpp"
+#include"Vector.h"
+#include"Matrix.h"
 
 using namespace std;
 
