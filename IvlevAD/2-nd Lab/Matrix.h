@@ -1,9 +1,5 @@
 #pragma once
 
-#include <iostream>
-#include <cmath>
-#include "Vector.h"
-
 using namespace std;
 
 template <typename Type>
@@ -109,7 +105,7 @@ public:
         }
     }
 
-	void test(MyVec<Type> & X, MyVec<Type> & _X)
+	void test(MyVec<Type> & X, MyVec<Type> & _X) // X solution vector, _X vector of values
     {
         MyVec<double> X0{X};
         size_t T = 0;
