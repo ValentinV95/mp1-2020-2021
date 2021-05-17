@@ -70,6 +70,9 @@ namespace
 		cout << "number of variables: ";
 		cin >> w;
 
+		cin.clear();
+		cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
 		matrix.clear();
 		matrix.resize(h, w + 1);
 	}
@@ -83,6 +86,9 @@ namespace
 		cin >> minValue;
 		cout << "maximum value: ";
 		cin >> maxValue;
+
+		cin.clear();
+		cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
 		if (minValue > maxValue) {
 			std::swap(minValue, maxValue);
@@ -124,12 +130,14 @@ namespace
 			int comand;
 			cin >> comand;
 
+			cin.clear();
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
 			if (comand == 2) {
 				cout << "enter name of file\n>> ";
 				cout.flush();
 
 				string fileName;
-				cin.ignore();
 				getline(cin, fileName);
 
 				ifstream fin(fileName);
@@ -159,6 +167,10 @@ namespace
 						cin >> matrix[i][j];
 					}
 				}
+
+				cin.clear();
+				cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
 				break;
 			}
 			else if (comand == 3) {
@@ -177,7 +189,7 @@ namespace
 			}
 		}
 	}
-	
+
 	template <typename T>
 	void printSolveResult(Matrix<T>& matrix)
 	{
@@ -232,6 +244,9 @@ namespace
 			cout << ">> ";
 			int comand;
 			cin >> comand;
+
+			cin.clear();
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
 			if (comand == 1) {
 				for (size_t i = 0; i < matrix.size().first; i++)
@@ -292,12 +307,17 @@ namespace
 			size_t i, j;
 			cin >> i >> j;
 
+			cin.clear();
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
 			if (i > matrix.size().first || j > matrix.size().second || i == 0 || j == 0) {
 				cout << "incorrect indexes\n";
 			}
 			else {
 				cout << "input new value of element (" << i << ", " << j << "):\n>> ";
 				cin >> matrix[i - 1][j - 1];
+				cin.clear();
+				cin.ignore(numeric_limits<streamsize>::max(), '\n');
 				break;
 			}
 		}
@@ -310,7 +330,7 @@ namespace
 		Matrix<T> matrix;
 		createMatrixMenu(matrix);
 		inputMatrixMenu(matrix);
-		
+
 		while (true)
 		{
 			system("cls");
@@ -350,6 +370,10 @@ namespace
 
 			int comand;
 			cin >> comand;
+
+			cin.clear();
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
 			switch (comand)
 			{
 			case 1:
@@ -401,6 +425,9 @@ namespace
 			int comand;
 			cin >> comand;
 
+			cin.clear();
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
 			switch (comand)
 			{
 			case 1:
@@ -435,7 +462,10 @@ void menu()
 
 		int comand;
 		cin >> comand;
-		
+
+		cin.clear();
+		cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
 		switch (comand)
 		{
 		case 1:
