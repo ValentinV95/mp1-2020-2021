@@ -152,6 +152,15 @@ public:
 		swap(T, B.T);
 		return *this;
 	}
+	Matrix<Type> operator*(Type b)
+	{
+		Matrix<Type> C(size);
+		for (size_t i = 0; i < size; i++)
+		{
+			C[i] = T[i] * b;
+		}
+		return C;
+	}
 	template <typename Type> friend istream& operator>>(istream& in, Matrix<Type>& A);
 	template <typename Type> friend ostream& operator<<(ostream& out, Matrix<Type>& A);
 	~Matrix()
