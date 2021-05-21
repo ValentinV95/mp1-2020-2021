@@ -72,15 +72,7 @@ public:
 		}
 		return C;
 	}
-	Vector<Type> operator*(Type b)
-	{
-		Vector C(size);
-		for (size_t i = 0; i < size; i++)
-		{
-			C[i] = T[i] * b;
-		}
-		return C;
-	}
+	template <typename Type> friend Vector<Type> operator*(Vector<Type> A, Type b);
 	template <typename Type> friend istream& operator>>(istream& in, Vector<Type>& A);
 	template <typename Type> friend ostream& operator<<(ostream& out, Vector<Type>& A);
 	~Vector()
@@ -92,6 +84,17 @@ protected:
 	size_t size;
 	Type* T;
 };
+
+template <typename Type>
+Vector<Type> operator*(Vector<Type> A, Type b)
+{
+	Vector<Type> C(A.size);
+	for (size_t i = 0; i < A.size; i++)
+	{
+		C[i] = A[i] * b;
+	}
+	return C;
+}
 
 template <typename Type>
 istream& operator>>(istream& in, Vector<Type>& A)
