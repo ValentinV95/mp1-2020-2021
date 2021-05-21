@@ -32,9 +32,19 @@ public:
 		}
 		else
 		{
-			data = new T[size];
+			try
+			{
+				data = new T[size];
+			}
+			catch(...)
+			{
+				size = 0;
+				data = nullptr;
+				cout << "Error new" << endl;
+			}
 		}
 	}
+
 	MyVec(const MyVec& sec)
 	{
 		size = sec.size;
@@ -63,7 +73,7 @@ public:
 		return (*this);
 	}
 
-	MyVec operator * (T sec)
+	MyVec operator * (double sec) //*double(not T) sec, else perhaps error MyVec<MyVec<T>> * MyVec<T>
 	{
 		MyVec <T> A{ size };
 		for (size_t i = 0; i < size; i++)

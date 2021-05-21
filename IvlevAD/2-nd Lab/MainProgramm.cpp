@@ -47,8 +47,10 @@ int main()
         cout << "Your vector of values" << endl;
         cout << X;
     }
+    cout << "1: Step-by-step solution\n2: Only solution" << endl;
+    cin >> check;
+	MyVec<double> XV = M0.Gauss(X, check);
     cout << "Solving a system of linear equations by the Gauss method" << endl;
-	MyVec<double> XV = M0.Gauss(X);
     cout << XV;
     cout << "1: Test Gause\n2: End" << endl;
     cin >> check;

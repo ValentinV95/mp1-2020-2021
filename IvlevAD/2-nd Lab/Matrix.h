@@ -49,7 +49,8 @@ public:
         return(j);
     }
 
-	MyVec<Type> Gauss(MyVec<Type> X) // For type double, With an accuracy of 10^-8.
+	MyVec<Type> Gauss(MyVec<Type> X, int StepByStep) // For type double, With an accuracy of 10^-8.
+    //If StepByStep != 1 step-by-step solution
     {
 		Matrix<Type> Copy = *this;
         if ((this->size == size_column) && (this->size == X.get_size()))
@@ -76,6 +77,13 @@ public:
                             X[j] -= (X[MaxValuei]*this->data[j][i]);
                             this->data[j] -= (this->data[MaxValuei]*this->data[j][i]);
                         }
+                    }
+                    if (StepByStep != 2)
+                    {
+                        cout << "Matrix Gauss step " << i << endl;
+                        cout << *this;
+                        cout << "Vector of values" << endl;
+                        cout << X;
                     }
                 }
                 else
