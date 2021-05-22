@@ -2,6 +2,7 @@
 #pragma warning(disable:6385)
 #pragma warning(disable:4244)
 #include <iostream>
+using namespace std;
 
 
 //#define CHECK
@@ -449,6 +450,13 @@ public:
 #endif
 	}
 
+	void SetRand(int min, int max)
+	{
+		for (int i = 0; i < this->n; i++)
+		{
+			this->arr[i] = (rand() % (max - min + 1)) + min;
+		}
+	}
 
 
 	void FillVector()
@@ -653,6 +661,16 @@ public:
 		}
 	}
 
+	void SetSqrMatrixRand(int min, int max)
+	{
+		for (int i = 0; i < this->n; i++)
+		{
+			this->arr[i].SetRand(min, max);
+			
+		}
+	}
+
+
 	SqrMatrix()
 	{
 		
@@ -778,12 +796,10 @@ public:
 };
 
 template<typename T>
-class Matrix
+class Matrix : public Vector<Vector<T>>
 {
 private:
-	int n;
 	int m;
-	Vector<T>* mas;
 public:
 
 	int GetN()
@@ -798,18 +814,16 @@ public:
 
 	Vector<T> GetMasI(int i)
 	{
-		return this->mas[i];
+		return this->arr[i];
 	}
 
 	void SetMasI(const Vector<T>& vect, int i)
 	{
-		this->mas[i] = vect;
+		this->arr[i] = vect;
 	}
 
 	Matrix()
 	{
-		this->mas = NULL;
-		this->n = 0;
 		this->m = 0;
 #ifdef CHECK
 		std::cout << "Вызвался конструктор по умолчанию класса SqrMatrix" << " " << this << std::endl << std::endl;
@@ -818,7 +832,7 @@ public:
 
 	Matrix(int n, int m)
 	{
-		this->mas = new Vector<T>[m];
+		this->arr = new Vector<T>[m];
 		this->n = n;
 		this->m = m;
 #ifdef CHECK
@@ -828,13 +842,13 @@ public:
 
 	Matrix(const Matrix& other)
 	{
-		this->mas = new Vector<T>[other.m];
+		this->arr = new Vector<T>[other.m];
 		this->n = other.n;
 		this->m = other.m;
 
 		for (int i = 0; i < other.n; i++)
 		{
-			mas[i] = other.mas[i];
+			this->arr[i] = other.arr[i];
 		}
 #ifdef CHECK
 		std::cout << "Вызвался конструктор копирования класса SqrMatrix" << " " << this << std::endl << std::endl;
@@ -843,36 +857,46 @@ public:
 
 	void FillMatrix()
 	{
-		for (int i = 0; i < n; i++)
+		for (int i = 0; i < this->n; i++)
 		{
 			Vector<T> a(m);
 			a.FillVector();
-			this->mas[i] = a;
+			this->arr[i] = a;
 		}
 	}
 
 	Matrix<T>& operator= (const Matrix& otherMatrix)
 	{
 
-		delete[] this->mas;
-		this->mas = new Vector<T>[otherMatrix.m];
+		delete[] this->arr;
+		this->arr = new Vector<T>[otherMatrix.m];
 
 		this->n = otherMatrix.n;
 		this->m = otherMatrix.m;
 		this->FillMatrix();
 
-		for (int i = 0; i < n; i++)
+		for (int i = 0; i < this->n; i++)
 		{
-			mas[i] = otherMatrix.mas[i];
+			this->arr[i] = otherMatrix.arr[i];
 		}
 		return *this;
 	}
 
 	void ShowMatrix()
 	{
-		for (int i = 0; i < n; i++)
+		for (int i = 0; i < this->n; i++)
 		{
-			this->mas[i].ShowForMatrix();
+			this->arr[i].ShowForMatrix();
+		}
+	}
+
+	void SetMatrix()
+	{
+		for (int i = 0; i < this->n; i++)
+		{
+			std::cout << "Введите строчку матрицы под номером " << i + 1 << ": " << std::endl;
+			this->arr[i].SetVector();
+			std::cout << std::endl;
 		}
 	}
 
@@ -881,7 +905,7 @@ public:
 		this->m = m + 1;
 		for (int i = 0; i < other.n; i++)
 		{
-			this->mas[i].AddElement(other.arr[i]);
+			this->arr[i].AddElement(other.arr[i]);
 		}
 	}
 
@@ -890,12 +914,12 @@ public:
 		T maxElement = 0;
 		int row = 0;
 
-		for (int i = start; i < n; i++)
+		for (int i = start; i < this->n; i++)
 		{
-			T x = GetRK(this->mas[i], k);
+			T x = GetRK(this->arr[i], k);
 			if (modul(x) >= maxElement)
 			{
-				maxElement = modul(GetRK(this->mas[i], k));
+				maxElement = modul(GetRK(this->arr[i], k));
 				row = i;
 			}
 		}
@@ -908,12 +932,12 @@ public:
 		T maxElement = 0;
 		int row = 0;
 
-		for (int i = start; i < n; i++)
+		for (int i = start; i < this->n; i++)
 		{
-			T x = GetRK(this->mas[i], k);
+			T x = GetRK(this->arr[i], k);
 			if (modulFraction(x) >= maxElement)
 			{
-				maxElement = modulFraction(GetRK(this->mas[i], k));
+				maxElement = modulFraction(GetRK(this->arr[i], k));
 				row = i;
 			}
 		}
@@ -925,11 +949,11 @@ public:
 	{
 		T maxElement = 0;
 
-		for (int i = start; i < n; i++)
+		for (int i = start; i < this->n; i++)
 		{
-			if (modul(GetRK(this->mas[i], k)) >= modul(maxElement))
+			if (modul(GetRK(this->arr[i], k)) >= modul(maxElement))
 			{
-				maxElement = GetRK(this->mas[i], k);
+				maxElement = GetRK(this->arr[i], k);
 			}
 		}
 
@@ -940,11 +964,11 @@ public:
 	{
 		T maxElement = 0;
 
-		for (int i = start; i < n; i++)
+		for (int i = start; i < this->n; i++)
 		{
-			if (modulFraction(GetRK(this->mas[i], k)) >= modulFraction(maxElement))
+			if (modulFraction(GetRK(this->arr[i], k)) >= modulFraction(maxElement))
 			{
-				maxElement = GetRK(this->mas[i], k);
+				maxElement = GetRK(this->arr[i], k);
 			}
 		}
 
@@ -955,16 +979,15 @@ public:
 	{
 		Vector<T> saver(this->n);
 
-		saver = this->mas[i];
+		saver = this->arr[i];
 
-		this->mas[i] = this->mas[k];
+		this->arr[i] = this->arr[k];
 
-		this->mas[k] = saver;
+		this->arr[k] = saver;
 	}
 
 	~Matrix()
 	{
-		delete[] this->mas;
 #ifdef CHECK
 		std::cout << "Вызвался деструктор класса SqrMatrix" << " " << this << std::endl << std::endl;
 #endif
@@ -988,28 +1011,48 @@ public:
 #endif
 	}
 
-	SLAU(int n) : SqrMatrix<T>(n)
+	SLAU(int n, int k) : SqrMatrix<T>(n)
 	{
 		Matrix<T> GiverMatrix(n, n + 1);
 		
 		this->FillSqrMatrix();
 
 		Vector<T> vect(n);
+		if (k == 0)
+		{
+			int min = 1, max = 0;
+			while (min > max)
+			{
+				std::cout << "Введите нижнюю границу рандомной генерации: " << std::endl;
+				std::cin >> min;
+				std::cout << "Введите верхнюю границу рандомной генерации: " << std::endl;
+				std::cin >> max;
+			}
+			
 
-		std::cout << "Введите столбец свободных членов системы: " << std::endl;
-		vect.SetVector();
-		std::cout << std::endl;
+			vect.SetRand(min, max);
+			this->SetSqrMatrixRand(min, max);
+			this->AddVector(vect);
 
+		}
+		else if (k == 1)
+		{
+			this->SetSqrMatrix();
 
-		this->SetSqrMatrix();
+			std::cout << "Введите столбец свободных членов системы: " << std::endl;
+			vect.SetVector();
+			std::cout << std::endl;
+			this->AddVector(vect);
+		}
 		
-
-		this->AddVector(vect);
+		
 
 		for (int i = 0; i < this->n; i++)
 		{
 			GiverMatrix.SetMasI(this->GetMasI(i), i);
 		}
+
+		//GiverMatrix.SetMatrix();
 
 		BaseMatrix = GiverMatrix;
 #ifdef CHECK
@@ -1275,19 +1318,31 @@ int main()
 	std::cin >> n;
 	
 
-	std::cout << "Для вызова метода Гаусса с ответом в виде десятичных дробей введите 1" << std::endl;
-	std::cout << "Для вызова метода Гаусса с ответом в виде обыкновенных дробей введите 2" << std::endl;
-	while ((key != 1) && (key != 2))
+	std::cout << "Для вызова метода Гаусса с рандомной генерацией элементов матрицы и ответом в виде десятичных дробей введите 1" << std::endl;
+	std::cout << "Для вызова метода Гаусса с рандомной генерацией элементов матрицы и ответом в виде обыкновенных дробей введите 2" << std::endl;
+	std::cout << "Для вызова метода Гаусса с самостоятельным вводом элементов матрицы и ответом в виде десятичных дробей введите 3" << std::endl;
+	std::cout << "Для вызова метода Гаусса с самостоятельным вводом элементов матрицы и ответом в виде обыкновенных дробей введите 4" << std::endl;
+	while ((key != 1) && (key != 2) && (key != 3) && (key != 4))
 	{
 		std::cin >> key;
 	}
 
-	switch (key)
+	int set = 0;
+	if (key < 3)
+	{
+		set = 0;
+	}
+	else
+	{
+		set = 1;
+	}
+
+	switch (key % 2)
 	{
 	case 1:
 	{
 		
-		SLAU<double> A(n);
+		SLAU<double> A(n, set);
 		std::cout << "Исходная матрица: " << std::endl;
 		A.ShowSLAU();
 		Vector<double> x_0(n);
@@ -1298,10 +1353,10 @@ int main()
 		break;
 	}
 
-	case 2:
+	case 0:
 	{
 		
-		SLAU<double> B(n);
+		SLAU<double> B(n, set);
 		std::cout << "Исходная матрица: " << std::endl;
 		B.ShowSLAU();
 		Vector<Fraction<double>> x(n);
