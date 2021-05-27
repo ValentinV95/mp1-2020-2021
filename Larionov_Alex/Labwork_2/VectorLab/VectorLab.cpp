@@ -10,8 +10,8 @@ using namespace std;
 	cin >> v;
 	switch (v)
 	{
-	case(1): {matrix<double> test(n); test.fill_manually(); cout << "Ваша матрица:" << endl; test.printm(); test.J_G(); test.printAnswer(); break; }
-	case(2): {matrix<double> test(n); test.fill_randomly(); cout << "Ваша матрица:" << endl; test.printm(); test.J_G(); test.printAnswer(); break; }
-	case(3): {matrix<int> test(n); test.fill_randomly(); cout << "Ваша матрица:" << endl; test.printm(); test.J_G(); test.printAnswer(); break; }
+	case(1): {matrix<double> test(n); test.fill_manually(); cout << "Ваша матрица:" << endl; test.printm(); test.J_G(); if (test.checkM() == 0) { test.printAnswer(); } break; }
+	case(2): {matrix<double> test(n); test.fill_randomly(); cout << "Ваша матрица:" << endl; test.printm(); test.J_G(); if (test.checkM() == 0) { test.printAnswer(); } break; }
+	case(3): {matrix<int> test(n); test.fill_randomly(); cout << "Ваша матрица:" << endl; test.printm(); test.J_G(); if (test.checkM() == 0) { test.printAnswer(); } break; }
 	}
 }
