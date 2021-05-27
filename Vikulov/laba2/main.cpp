@@ -3,6 +3,7 @@
 #include <locale.h>
 #include <cstdlib>
 #include <ctime>
+#include <time.h>
 #include "VectorsMatrixGauss.h"
 
 
