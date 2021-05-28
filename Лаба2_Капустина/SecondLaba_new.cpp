@@ -9,7 +9,7 @@
 */
 #include <iostream>
 #include "ClassVector.h"
-#include "Matrix.h"
+#include "Matrix_new.h"
 #include <stdio.h>      
 #include <time.h>
 
