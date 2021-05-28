@@ -26,6 +26,7 @@ void Check()
 	cout << "    The system of linear equations in the reduced form\n\n";
 	b.LinearSystem();
 
+
 	cout << "\n\n\n      Linear equation system solution: \n\n";
 
 	for (size_t i = 0; i < u_size; i++)
@@ -74,13 +75,33 @@ void RandomNumberGauss()
 	b.LinearSystem();
 
 
-	cout << "\n\n\n      Linear equation system solution: \n\n";
+	if (b.getCompatable() != 0) {
+		if (b.getRank() < b.getSize())
+		{
+			cout << "\n\n\n      The system has infinitely many solutions\n\n";
+			cout << "\n      One of the private solutions: \n\n";
 
-	for (size_t i = 0; i < u_size; i++)
-	{
-		cout << "X" << i + 1 << "\t=\t" << X[i] << endl;
+			for (size_t i = 0; i < u_size; i++)
+			{
+				cout << "X" << i + 1 << "\t=\t" << X[i] << endl;
+			}
+			cout << "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
+		}
+		else {
+			cout << "\n\n\n    Linear equation system solution: \n\n";
+
+			for (size_t i = 0; i < u_size; i++)
+			{
+				cout << "X" << i + 1 << "\t=\t" << X[i] << endl;
+			}
+			cout << "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
+		}
 	}
-	cout << "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
+	else
+	{
+		cout << "the system is not compatible" << endl;
+	
+	}
 }
 
 void userValues()
@@ -125,13 +146,36 @@ void userValues()
 	cout << "     The system of linear equations in the reduced form\n\n";
 	b.LinearSystem();
 
-	cout << "\n\n\n    Linear equation system solution: \n\n";
 
-	for (size_t i = 0; i < u_size; i++)
-	{
-		cout << "X" << i + 1 << "\t=\t" << X[i] << endl;
+
+
+	if (b.getCompatable() != 0) {
+		if (b.getRank() < b.getSize())
+		{
+			cout << "\n\n\n      The system has infinitely many solutions\n\n";
+			cout << "\n      One of the private solutions: \n\n";
+
+			for (size_t i = 0; i < u_size; i++)
+			{
+				cout << "X" << i + 1 << "\t=\t" << X[i] << endl;
+			}
+			cout << "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
+		}
+		else {
+			cout << "\n\n\n      Linear equation system solution: \n\n";
+
+			for (size_t i = 0; i < u_size; i++)
+			{
+				cout << "X" << i + 1 << "\t=\t" << X[i] << endl;
+			}
+			cout << "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
+		}
 	}
-	cout << "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
+	else
+	{
+		cout << "the system is not compatible" << endl;
+
+	}
 }
 
 

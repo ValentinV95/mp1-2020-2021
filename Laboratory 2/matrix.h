@@ -16,6 +16,8 @@ class Matrix : public Vector <Vector<T>>
 {
 private:
 	T s;
+	bool compatable = 1;
+	int rank = 0;
 
 	int maxIndexInCol(int index)
 	{
@@ -75,6 +77,55 @@ public:
 	~Matrix()
 	{}
 
+	bool getCompatable() {
+		return compatable;
+	}
+
+	double Module(double q)
+	{
+		if (q < 0)
+		{
+			q *= -1;
+		}
+		return q;
+	}
+	void Rank()
+	{
+		for (int i = 0; i < this->size; i++)
+		{
+			if (this->data[i][i] != 0)
+			{
+				rank++;
+			}
+		}
+	}
+
+	int getRank()
+	{
+		return rank;
+	}
+
+	void CheckComplect()
+	{
+		for (int i = this->size - 1; i >= 0; i--)
+		{
+
+			if (this->data[i][0] == 0) {
+				int proverka = 0;
+				for (int j = 1; j < this->size; j++)
+				{
+					if (this->data[i][j] != 0)
+					{
+						proverka++;
+					}
+				}
+				if ((proverka == 0) && (this->data[i][this->size] != 0)) {
+					this->compatable = 0;
+				}
+			}
+		}
+	}
+
 
 	void RandomElements()
 	{
@@ -103,7 +154,7 @@ public:
 
 	void GaussMethod(Vector<T>& x)
 	{
-
+		CheckComplect();
 		for (size_t i = 0; i < this->size; i++)
 		{
 			int max = maxIndexInCol(i);
@@ -116,16 +167,20 @@ public:
 
 					for (int k = i; k < this->size + 1; k++)
 					{
-
+						
 						this->data[row][k] -= (this->data[i][k]) * mnozhitel;
-						if (this->data[row][k] < MIN)
+						if (Module(this->data[row][k]) < 0.000000001)
 						{
 							this->data[row][k] = 0;
 						}
+						
+						
 					}
+					
 				}
 
 			}
+			
 
 		}
 
@@ -145,8 +200,12 @@ public:
 			{
 				x[i] = sum / this->data[i][i];
 			}
+
 		}
 
+		CheckComplect();			
+	
+		Rank();
 	}
 
 	void Alignment()
@@ -170,4 +229,3 @@ public:
 
 
 };
-
