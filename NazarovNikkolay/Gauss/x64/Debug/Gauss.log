@@ -1,0 +1,10 @@
+﻿  main.cpp
+c:\users\kolya\onedrive\рабочий стол\gauss\gauss\gauss.h(62): warning C4552: "+": результат выражения не используется
+  c:\users\kolya\onedrive\рабочий стол\gauss\gauss\gauss.h(54): note: при компиляции функции-члена "<Нет данных>" класса класс <Нет данных>
+  c:\users\kolya\onedrive\рабочий стол\gauss\gauss\main.cpp(18): note: выполняется компиляция ссылки на экземпляр шаблон функции "Vector<T> SLAE<T>::gauss(Vector<T>)"
+          with
+          [
+              T=double
+          ]
+  c:\users\kolya\onedrive\рабочий стол\gauss\gauss\main.cpp(14): note: выполняется компиляция ссылки на экземпляр шаблон класс "SLAE<double>"
+  Gauss.vcxproj -> C:\Users\kolya\OneDrive\Рабочий стол\Gauss\x64\Debug\Gauss.exe
